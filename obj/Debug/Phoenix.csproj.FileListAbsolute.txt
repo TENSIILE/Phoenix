@@ -1,0 +1,11 @@
+B:\Проекты\C#\Phoenix library work\Phoenix\bin\Debug\Phoenix.dll
+B:\Проекты\C#\Phoenix library work\Phoenix\bin\Debug\Phoenix.pdb
+B:\Проекты\C#\Phoenix library work\Phoenix\obj\Debug\Phoenix.csproj.CoreCompileInputs.cache
+B:\Проекты\C#\Phoenix library work\Phoenix\obj\Debug\Phoenix.dll
+B:\Проекты\C#\Phoenix library work\Phoenix\obj\Debug\Phoenix.pdb
+B:\Проекты\C#\Phoenix library work\Phoenix\obj\Debug\Phoenix.PhoenixForm.resources
+B:\Проекты\C#\Phoenix library work\Phoenix\obj\Debug\Phoenix.csproj.GenerateResource.cache
+B:\Проекты\C#\Phoenix library work\Phoenix\obj\Debug\Phoenix.UI.PhoenixButton.resources
+B:\Проекты\C#\Phoenix library work\Phoenix\obj\Debug\Phoenix.Properties.Resources.resources
+B:\Проекты\C#\Phoenix library work\Phoenix\obj\Debug\Phoenix.UI.PhoenixControlWindow.resources
+B:\Проекты\C#\Phoenix library work\Phoenix\obj\Debug\Phoenix.csprojAssemblyReference.cache
