@@ -3,11 +3,11 @@ using Phoenix.Extentions;
 
 namespace Phoenix
 {
-    public class PhoenixContainerFormsType : Dictionary<string, PhoenixForm> { }
+    public class PContainerFormsType : Dictionary<string, PhoenixForm> { }
 
-    public static class PhoenixContainerForms
+    public static class PContainer
     {
-        private static PhoenixContainerFormsType _phoenixListForms = new PhoenixContainerFormsType();
+        private static PContainerFormsType _phoenixListForms = new PContainerFormsType();
 
         /// <summary>
         /// The method returns the form by its name.

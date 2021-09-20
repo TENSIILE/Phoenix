@@ -45,7 +45,7 @@ namespace Phoenix
         /// </summary>
         protected void Init()
         {
-            PhoenixContainerForms.Append(Name, this);
+            PContainer.Append(Name, this);
             InitializeEvents();
         }
 

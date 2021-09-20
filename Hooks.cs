@@ -62,7 +62,7 @@ namespace Phoenix
             Init();
             forms.ForEach((PhoenixForm form) =>
             {
-                PhoenixContainerForms.Append(form.Name, form);
+                PContainer.Append(form.Name, form);
                 form.InitializeEvents();
                 form.EnableFormHiding();
             });
