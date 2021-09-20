@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using Phoenix.Extentions;
 
 namespace Phoenix.Core
@@ -14,6 +15,25 @@ namespace Phoenix.Core
         public void Add(string key, dynamic value)
         {
             _provider.Add(key, value);
+        }
+
+        /// <summary>
+        /// The method adds a component to the provider.
+        /// </summary>
+        public void Add(Control control)
+        {
+            _provider.Add(control.Name, control);
+        }
+
+        /// <summary>
+        /// The method adds an unlimited number of components to the provider.
+        /// </summary>
+        public void Add(params Control[] controls)
+        {
+            foreach (Control control in controls)
+            {
+                _provider.Add(control.Name, control);
+            }
         }
 
         /// <summary>
