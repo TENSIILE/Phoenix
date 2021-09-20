@@ -39,7 +39,7 @@ namespace Phoenix.Core
         /// <summary>
         /// A method that returns data from the provider using a unique key.
         /// </summary>
-        public T Get<T>(string key)
+        public T Take<T>(string key)
         {
             return (T)Convert.ChangeType(_provider.Get(key), typeof(T));
         }
