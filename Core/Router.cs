@@ -12,6 +12,13 @@ namespace Phoenix.Core
         private readonly Dictionary<string, PhoenixForm> _pages = new Dictionary<string, PhoenixForm>();
 
         private readonly Panel _panel;
+
+        private string _route;
+
+        /// <summary>
+        /// An accessor that returns the value of the current route.
+        /// </summary>
+        public string GetRoute => _route;
         
         public Router(Panel panel)
         {
@@ -32,6 +39,8 @@ namespace Phoenix.Core
             }
 
             if (((PhoenixForm)_panel.Tag)?.Name == form.Name) return;
+
+            _route = name;
 
             Mounter.MountComponent(_panel, form);
         }
