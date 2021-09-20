@@ -63,7 +63,7 @@ namespace Phoenix.Helpers
         {
             Utils.ProtectedConstraintOnIntOrDouble(value, outflank);
 
-            return !(value.ToString() == 0.ToString());
+            return !(value.ToString() == "0");
         }
 
         /// <summary>
