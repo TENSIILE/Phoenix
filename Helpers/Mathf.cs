@@ -12,8 +12,8 @@ namespace Phoenix.Helpers
         /// </summary>
         public static bool LessThan<T, R>(T one, R two)
         {
-            Utils.ProtectedConstraintOnIntOrDouble(one);
-            Utils.ProtectedConstraintOnIntOrDouble(two);
+            Utils.ProtectedConstraintOnNumber(one);
+            Utils.ProtectedConstraintOnNumber(two);
 
             return Convert.ToDouble(one) < Convert.ToDouble(two);
         }
@@ -23,8 +23,8 @@ namespace Phoenix.Helpers
         /// </summary>
         public static bool GreaterThan<T, R>(T one, R two)
         {
-            Utils.ProtectedConstraintOnIntOrDouble(one);
-            Utils.ProtectedConstraintOnIntOrDouble(two);
+            Utils.ProtectedConstraintOnNumber(one);
+            Utils.ProtectedConstraintOnNumber(two);
 
             return Convert.ToDouble(one) > Convert.ToDouble(two);
         }

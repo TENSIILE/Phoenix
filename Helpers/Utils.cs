@@ -23,11 +23,11 @@ namespace Phoenix.Helpers
             return string.Join(" ", expressions).Contains("True");
         }
 
-        internal static void ProtectedConstraintOnIntOrDouble<T>(T value, bool outflank = false)
+        internal static void ProtectedConstraintOnNumber<T>(T value, bool outflank = false)
         {
-            if (!CompareOr(TypeMatchers.IsInt(value), TypeMatchers.IsDouble(value)) && !outflank)
+            if (!CompareOr(TypeMatchers.IsInt(value), TypeMatchers.IsDouble(value), TypeMatchers.IsFloat(value)) && !outflank)
             {
-                throw new ArgumentException("The method only accepts Int and Double types!");
+                throw new ArgumentException("This method only accepts Int or Double or Float types!");
             }
         }
 

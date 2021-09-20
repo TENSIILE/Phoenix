@@ -59,9 +59,9 @@ namespace Phoenix.Helpers
         /// <summary>
         ///A method that converts an integer and double to a boolean value.
         /// </summary>
-        public static bool IntOrDoubleToBoolean<T>(T value, bool outflank = false)
+        public static bool NumberToBoolean<T>(T value, bool outflank = false)
         {
-            Utils.ProtectedConstraintOnIntOrDouble(value, outflank);
+            Utils.ProtectedConstraintOnNumber(value, outflank);
 
             return !(value.ToString() == "0");
         }
