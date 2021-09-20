@@ -23,7 +23,7 @@ namespace Phoenix
         /// The accessor that returns static store of the form.
         /// </summary>
         [Browsable(false)]
-        public Store GetStaticStore => _store;
+        public Store SStore => _store;
 
         /// <summary>
         /// Static accessor that returns static provider of the form.
@@ -35,7 +35,7 @@ namespace Phoenix
         /// The accessor that returns static provider of the form.
         /// </summary>
         [Browsable(false)]
-        public Provider GetStaticProvider => _provider;
+        public Provider SProvider => _provider;
 
         internal event Action FormDidHide;
         internal event Action FormDidShow;
