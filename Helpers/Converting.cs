@@ -28,7 +28,6 @@ namespace Phoenix.Helpers
             }
 
             return double.NaN;
-
         }
 
         /// <summary>
