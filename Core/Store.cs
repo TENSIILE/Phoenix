@@ -228,6 +228,11 @@ namespace Phoenix.Core
         /// </summary>
         public void QuietDispatch<T>(string type, T payload)
         {
+            if (payload is Control)
+            {
+                throw new ArgumentException("Payload cannot be a component!", "payload");
+            }
+
             WillChangeStore?.Invoke(GetStatePrev, GetState);
 
             _storeOld = new Storage(_store);
