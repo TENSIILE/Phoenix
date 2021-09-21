@@ -10,20 +10,27 @@ namespace Phoenix
 {
     public partial class PhoenixForm : Form
     {
-        private static Store _store = new Store();
+        private Store _localStore = new Store();
+        private static Store _globalStore = new Store();
         private static Provider _provider = new Provider();
 
         /// <summary>
-        /// Static accessor that returns static store of the form.
+        /// The static accessor that returns static global store of the form.
         /// </summary>
         [Browsable(false)]
-        public static Store Store => _store;
+        public static Store StaticGlobalStore => _globalStore;
 
         /// <summary>
-        /// The accessor that returns static store of the form.
+        /// The accessor that returns static global store of the form.
         /// </summary>
         [Browsable(false)]
-        public Store StaticStore => _store;
+        public Store GlobalStore => _globalStore;
+
+        /// <summary>
+        /// The accessor that returns store of the form.
+        /// </summary>
+        [Browsable(false)]
+        public Store Store => _localStore;
 
         /// <summary>
         /// Static accessor that returns static provider of the form.
@@ -57,9 +64,9 @@ namespace Phoenix
 
             FormDidAddedListeners();
 
-            _store.DidChangeStore += StoreDidUpdate;
-            _store.WillChangeStore += StoreWillUpdate;
-            _store.Render += Render;
+            _localStore.DidChangeStore += StoreDidUpdate;
+            _localStore.WillChangeStore += StoreWillUpdate;
+            _localStore.Render += Render;
         }
 
         /// <summary>

@@ -10,9 +10,9 @@ namespace Phoenix
         /// <summary>
         /// Hook method that creates the state of the form.
         /// </summary>
-        protected static State<T> UseState<T>(T value)
+        protected State<T> UseState<T>(T value)
         {
-            return new State<T>(value, _store);
+            return new State<T>(value, _localStore);
         }
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace Phoenix
         /// </summary>
         protected string UseEffect(Action callback, string[] deps, bool isRunStartAway = false)
         {
-            return _store.Effect(callback, deps, isRunStartAway);
+            return _localStore.Effect(callback, deps, isRunStartAway);
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Phoenix
         /// </summary>
         protected void UseCancelEffect(string id)
         {
-            _store.CancelEffect(id);
+            _localStore.CancelEffect(id);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Phoenix
         /// </summary>
         protected Reducer<T> UseReducer<T>(ReducerActionCallback<T> reducer, T initialState)
         {
-            return new Reducer<T>(_store, reducer, initialState);
+            return new Reducer<T>(_localStore, reducer, initialState);
         }
 
         /// <summary>
