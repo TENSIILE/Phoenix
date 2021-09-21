@@ -103,7 +103,7 @@ namespace Phoenix.Core
         {
             if (TypeMatchers.IsNullOrEmpty(keyStore))
             {
-                throw new ArgumentException("The key [keyStore] is empty or null!");
+                throw new ArgumentException("The key is empty or null!", "keyStore");
             }
 
             if (_targets.ContainsKey(keyStore))
