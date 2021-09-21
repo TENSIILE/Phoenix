@@ -38,7 +38,7 @@ namespace Phoenix
         /// </summary>
         protected Reducer<T> UseReducer<T>(ReducerActionCallback<T> reducer, T initialState)
         {
-            return new Reducer<T>(this, reducer, initialState);
+            return new Reducer<T>(_store, reducer, initialState);
         }
 
         /// <summary>
