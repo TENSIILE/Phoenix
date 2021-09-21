@@ -34,7 +34,7 @@
         {
             _form = form;
             _reducer = reducer;
-            _initialState = new State<T>(initialState, _form.GetStaticStore);
+            _initialState = new State<T>(initialState, _form.StaticStore);
         }
 
         /// <summary>
