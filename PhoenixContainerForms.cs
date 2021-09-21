@@ -3,7 +3,7 @@ using Phoenix.Extentions;
 
 namespace Phoenix
 {
-    public class PContainerFormsType : Dictionary<string, PhoenixForm> { }
+    internal class PContainerFormsType : Dictionary<string, PhoenixForm> { }
 
     public static class PContainer
     {
