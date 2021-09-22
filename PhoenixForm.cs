@@ -60,6 +60,8 @@ namespace Phoenix
         {
             PContainer.Append(Name, this);
             InitializeEvents();
+
+            _globalStore.StoreType = StoreTypes.GLOBAL;
         }
 
         internal void InitializeEvents()
@@ -73,6 +75,9 @@ namespace Phoenix
             _localStore.DidChangeStore += StoreDidUpdate;
             _localStore.WillChangeStore += StoreWillUpdate;
             _localStore.Render += Render;
+
+            _localStore.CombinedStores += StoreCombined;
+            _globalStore.CombinedStores += StoreCombined;
         }
 
         /// <summary>
@@ -189,8 +194,13 @@ namespace Phoenix
         /// </summary>
         protected virtual void StoreWillUpdate(Storage storePrev, Storage storeNow) { }
         /// <summary>
+        /// The lifecycle method is triggered when the local or global store of the form has been combined.
+        /// </summary>
+        protected virtual void StoreCombined(string storeType) { }
+        /// <summary>
         /// A lifecycle method that is called after a data update to display up-to-date information.
         /// </summary>
         protected virtual void Render() {}
+        
     }
 }

@@ -14,6 +14,8 @@ namespace Phoenix.Core
         private readonly List<Action> _subscribers = new List<Action>();
         private readonly List<Tuple<string[], Action, string>> _effects = new List<Tuple<string[], Action, string>>();
 
+        internal string StoreType { get; set; } = StoreTypes.LOCAL;
+
         public Store(Storage store = null)
         {
             if (store != null) _store = store;
@@ -32,6 +34,8 @@ namespace Phoenix.Core
         internal event Action<Storage, Storage> DidChangeStore;
         internal event Action<Storage, Storage> WillChangeStore;
         internal event Action Render;
+
+        internal event Action<string> CombinedStores;
 
         /// <summary>
         /// Store subscription method. Callback functions will be called whenever the store changes.
@@ -140,13 +144,18 @@ namespace Phoenix.Core
         /// </summary>
         public Store CombineStores(params Store[] stores)
         {
+            bool isChanged = false;
+
             foreach (Store store in stores)
             {
                 foreach (KeyValuePair<string, dynamic> item in store._store)
                 {
                     _store.Add(item.Key, item.Value);
+                    isChanged = true;
                 }
             }
+
+            if (isChanged) CombinedStores?.Invoke(StoreType);
 
             return this;
         }
