@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Phoenix.Json;
+using Phoenix.Extentions;
 
 namespace Phoenix.Core
 {
@@ -39,6 +41,25 @@ namespace Phoenix.Core
         public T GetByReducer<T>(Reducer<T> reducer)
         {
             return this[reducer.Name.ToString()];
+        }
+
+        /// <summary>
+        /// Returns the value from the Storage for the given key.
+        /// </summary>
+        public T Take<T>(string key)
+        {
+            try
+            {
+                return (T)Convert.ChangeType(this.Get(key), typeof(T));
+            }
+            catch (InvalidCastException)
+            {
+                throw new InvalidCastException($@"Unable to convert type {((object)this.Get(key)).GetType()} to type {typeof(T).ToString()}!");
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new KeyNotFoundException("A value with such a key does not exist in the storage!");
+            }
         }
     }
 }
