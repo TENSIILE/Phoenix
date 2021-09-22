@@ -14,7 +14,14 @@ namespace Phoenix
         /// </summary>
         public static PhoenixForm Get(string nameForm)
         {
-            return _phoenixListForms.Get(nameForm);
+            try
+            {
+                return _phoenixListForms.Get(nameForm);
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new KeyNotFoundException($@"The container does not have a form with such a key - {nameForm}");
+            }
         }
 
         /// <summary>

@@ -41,7 +41,14 @@ namespace Phoenix.Core
         /// </summary>
         public T Take<T>(string key)
         {
-            return (T)Convert.ChangeType(_provider.Get(key), typeof(T));
+            try
+            {
+                return (T)Convert.ChangeType(_provider.Get(key), typeof(T));
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new KeyNotFoundException($@"The provider does not have an object with such a key - {key}!");
+            }
         }
     }
 }
