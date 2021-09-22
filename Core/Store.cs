@@ -140,7 +140,7 @@ namespace Phoenix.Core
         }
 
         /// <summary>
-        /// A method that checks the existence of a method for the passed type.
+        /// A method that combines stores.
         /// </summary>
         public Store CombineStores(params Store[] stores)
         {
@@ -151,6 +151,30 @@ namespace Phoenix.Core
                 foreach (KeyValuePair<string, dynamic> item in store._store)
                 {
                     _store.Add(item.Key, item.Value);
+                    isChanged = true;
+                }
+            }
+
+            if (isChanged) CombinedStores?.Invoke(StoreType);
+
+            return this;
+        }
+
+        /// <summary>
+        /// The method combines the stores with internal matching of the parent store and the passed stores. 
+        /// In this case, the states with the same keys will be replaced with more relevant ones.
+        /// </summary>
+        public Store MergeStores(params Store[] stores)
+        {
+            bool isChanged = false;
+
+            foreach (Store store in stores)
+            {
+                if (_store.Scan() == store._store.Scan()) continue;
+
+                foreach (KeyValuePair<string, dynamic> item in store._store)
+                {
+                    _store.AddWithReplace(item.Key, item.Value);
                     isChanged = true;
                 }
             }

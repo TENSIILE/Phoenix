@@ -61,5 +61,10 @@ namespace Phoenix.Core
                 throw new KeyNotFoundException("A value with such a key does not exist in the storage!");
             }
         }
+
+        internal void AddWithReplace<T>(string key, T value)
+        {
+            this.AddWithReplacement(key, value);
+        }
     }
 }
