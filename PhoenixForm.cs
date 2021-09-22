@@ -137,14 +137,6 @@ namespace Phoenix
         }
 
         /// <summary>
-        /// A method to completely close the application.
-        /// </summary>
-        protected void Destroy()
-        {
-            Application.Exit();
-        }
-
-        /// <summary>
         /// The method hides the control from the user.
         /// </summary>
         public new void Hide()
