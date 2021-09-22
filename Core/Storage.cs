@@ -20,7 +20,7 @@ namespace Phoenix.Core
         /// <summary>
         /// Returns the value from storage corresponding to the passed component.
         /// </summary>
-        public T GetByState<T>(Control component)
+        public T GetByComponent<T>(Control component)
         {
             return this[component.Name.ToString()];
         }
@@ -31,6 +31,14 @@ namespace Phoenix.Core
         public T GetByState<T>(State<T> state)
         {
             return this[state.Name.ToString()];
+        }
+
+        /// <summary>
+        /// Returns the value from storage corresponding to the passed reducer.
+        /// </summary>
+        public T GetByReducer<T>(Reducer<T> reducer)
+        {
+            return this[reducer.Name.ToString()];
         }
     }
 }
