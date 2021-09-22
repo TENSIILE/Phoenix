@@ -2,7 +2,7 @@
 
 namespace Phoenix.Helpers
 {
-    public class Converting
+    public static class Converting
     {
         /// <summary>
         /// A method that converts an object to a boolean.
