@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Addons\Env.cs" />
+    <Compile Include="Core\Binder.cs" />
     <Compile Include="Core\Mounting\Mounter.cs" />
     <Compile Include="Core\Mounting\OptionsForm.cs" />
     <Compile Include="Core\Storage.cs" />
