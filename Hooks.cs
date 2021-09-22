@@ -12,12 +12,7 @@ namespace Phoenix
         /// </summary>
         protected State<T> UseState<T>(T value, string storeType = StoreTypes.LOCAL)
         {
-            if (storeType == StoreTypes.GLOBAL)
-            {
-                return new State<T>(value, _globalStore);
-            }
-
-            return new State<T>(value, _localStore);
+            return new State<T>(value, GetStoreByType(storeType));
         }
 
         /// <summary>
@@ -25,12 +20,7 @@ namespace Phoenix
         /// </summary>
         protected string UseEffect(Action callback, string[] deps, bool isRunStartAway = false, string storeType = StoreTypes.LOCAL)
         {
-            if (storeType == StoreTypes.GLOBAL)
-            {
-                return _globalStore.Effect(callback, deps, isRunStartAway);
-            }
-
-            return _localStore.Effect(callback, deps, isRunStartAway);
+            return GetStoreByType(storeType).Effect(callback, deps, isRunStartAway);
         }
 
         /// <summary>
@@ -38,13 +28,7 @@ namespace Phoenix
         /// </summary>
         protected void UseCancelEffect(string id, string storeType = StoreTypes.LOCAL)
         {
-            if (storeType == StoreTypes.GLOBAL)
-            {
-                 _globalStore.CancelEffect(id);
-                return;
-            }
-
-            _localStore.CancelEffect(id);
+            GetStoreByType(storeType).CancelEffect(id);
         }
 
         /// <summary>
@@ -54,12 +38,7 @@ namespace Phoenix
         /// </summary>
         protected Reducer<T> UseReducer<T>(ReducerActionCallback<T> reducer, T initialState, string storeType = StoreTypes.LOCAL)
         {
-            if (storeType == StoreTypes.GLOBAL)
-            {
-                return new Reducer<T>(_globalStore, reducer, initialState);
-            }
-
-            return new Reducer<T>(_localStore, reducer, initialState);
+            return new Reducer<T>(GetStoreByType(storeType), reducer, initialState);
         }
 
         /// <summary>

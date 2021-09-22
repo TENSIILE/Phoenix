@@ -44,8 +44,14 @@ namespace Phoenix
         [Browsable(false)]
         public Provider StaticProvider => _provider;
 
+        
         internal event Action FormDidHide;
         internal event Action FormDidShow;
+
+        internal Store GetStoreByType(string storeType = StoreTypes.LOCAL)
+        {
+            return storeType == StoreTypes.LOCAL ? _localStore : _globalStore;
+        }
 
         /// <summary>
         /// A method that initializes the form.
