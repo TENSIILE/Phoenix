@@ -7,7 +7,7 @@ namespace Phoenix.Core
 {
     public class Provider
     {
-        private Dictionary<string, dynamic> _provider = new Dictionary<string, dynamic>();
+        private readonly Dictionary<string, dynamic> _provider = new Dictionary<string, dynamic>();
 
         /// <summary>
         /// A method that adds any data to the provider.

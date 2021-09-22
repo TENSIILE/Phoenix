@@ -8,7 +8,7 @@ namespace Phoenix.Core
 {
     public class Binder
     {
-        private Dictionary<string, List<dynamic>> _targets = new Dictionary<string, List<dynamic>>();
+        private readonly Dictionary<string, List<dynamic>> _targets = new Dictionary<string, List<dynamic>>();
 
         /// <summary>
         /// A method for binding a value from a store to a component. Where the name of a cell in the store can be a component.

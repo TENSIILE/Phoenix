@@ -4,10 +4,10 @@ namespace Phoenix.Core
 {
     public class State<T>
     {
-        private string _name;
+        private readonly string _name;
 
+        private readonly Store _store;
         private T _valueState;
-        private Store _store;
 
         public State(T value, Store store)
         {

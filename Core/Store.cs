@@ -9,10 +9,10 @@ namespace Phoenix.Core
     public class Store : Binder
     {
         private Storage _storeOld = new Storage(new Dictionary<string, dynamic>());
-        private Storage _store = new Storage(new Dictionary<string, dynamic>());
+        private readonly Storage _store = new Storage(new Dictionary<string, dynamic>());
 
-        private List<Action> _subscribers = new List<Action>();
-        private List<Tuple<string[], Action, string>> _effects = new List<Tuple<string[], Action, string>>();
+        private readonly List<Action> _subscribers = new List<Action>();
+        private readonly List<Tuple<string[], Action, string>> _effects = new List<Tuple<string[], Action, string>>();
 
         public Store(Storage store = null)
         {

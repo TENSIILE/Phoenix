@@ -7,8 +7,8 @@ namespace Phoenix.Addons
 {
     public static class Async
     {
-        private static Dictionary<string, Thread> _stackTimeouts = new Dictionary<string, Thread>();
-        private static Dictionary<string, Thread> _stackIntervals = new Dictionary<string, Thread>();
+        private readonly static Dictionary<string, Thread> _stackTimeouts = new Dictionary<string, Thread>();
+        private readonly static Dictionary<string, Thread> _stackIntervals = new Dictionary<string, Thread>();
 
         /// <summary>
         /// The method calls the callback function after a specified number of seconds.
