@@ -10,20 +10,27 @@ namespace Phoenix
 {
     public partial class PhoenixForm : Form
     {
-        private static Store _store = new Store();
+        private Store _localStore = new Store();
+        private static Store _globalStore = new Store();
         private static Provider _provider = new Provider();
 
         /// <summary>
-        /// Static accessor that returns static store of the form.
+        /// The static accessor that returns static global store of the form.
         /// </summary>
         [Browsable(false)]
-        public static Store Store => _store;
+        public static Store StaticGlobalStore => _globalStore;
 
         /// <summary>
-        /// The accessor that returns static store of the form.
+        /// The accessor that returns static global store of the form.
         /// </summary>
         [Browsable(false)]
-        public Store GetStaticStore => _store;
+        public Store GlobalStore => _globalStore;
+
+        /// <summary>
+        /// The accessor that returns store of the form.
+        /// </summary>
+        [Browsable(false)]
+        public Store Store => _localStore;
 
         /// <summary>
         /// Static accessor that returns static provider of the form.
@@ -35,18 +42,26 @@ namespace Phoenix
         /// The accessor that returns static provider of the form.
         /// </summary>
         [Browsable(false)]
-        public Provider GetStaticProvider => _provider;
+        public Provider StaticProvider => _provider;
 
+        
         internal event Action FormDidHide;
         internal event Action FormDidShow;
+
+        internal Store GetStoreByType(string storeType = StoreTypes.LOCAL)
+        {
+            return storeType == StoreTypes.LOCAL ? _localStore : _globalStore;
+        }
 
         /// <summary>
         /// A method that initializes the form.
         /// </summary>
         protected void Init()
         {
-            PhoenixContainerForms.Append(Name, this);
+            PContainer.Append(Name, this);
             InitializeEvents();
+
+            _globalStore.StoreType = StoreTypes.GLOBAL;
         }
 
         internal void InitializeEvents()
@@ -57,9 +72,12 @@ namespace Phoenix
 
             FormDidAddedListeners();
 
-            _store.DidChangeStore += StoreDidUpdate;
-            _store.WillChangeStore += StoreWillUpdate;
-            _store.Render += Render;
+            _localStore.DidChangeStore += StoreDidUpdate;
+            _localStore.WillChangeStore += StoreWillUpdate;
+            _localStore.Render += Render;
+
+            _localStore.CombinedStores += StoreCombined;
+            _globalStore.CombinedStores += StoreCombined;
         }
 
         /// <summary>
@@ -124,14 +142,6 @@ namespace Phoenix
         }
 
         /// <summary>
-        /// A method to completely close the application.
-        /// </summary>
-        protected void Destroy()
-        {
-            Application.Exit();
-        }
-
-        /// <summary>
         /// The method hides the control from the user.
         /// </summary>
         public new void Hide()
@@ -184,8 +194,13 @@ namespace Phoenix
         /// </summary>
         protected virtual void StoreWillUpdate(Storage storePrev, Storage storeNow) { }
         /// <summary>
+        /// The lifecycle method is triggered when the local or global store of the form has been combined.
+        /// </summary>
+        protected virtual void StoreCombined(string storeType) { }
+        /// <summary>
         /// A lifecycle method that is called after a data update to display up-to-date information.
         /// </summary>
         protected virtual void Render() {}
+        
     }
 }

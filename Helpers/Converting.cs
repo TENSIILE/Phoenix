@@ -2,7 +2,7 @@
 
 namespace Phoenix.Helpers
 {
-    public class Converting
+    public static class Converting
     {
         /// <summary>
         /// A method that converts an object to a boolean.
@@ -28,7 +28,6 @@ namespace Phoenix.Helpers
             }
 
             return double.NaN;
-
         }
 
         /// <summary>
@@ -59,11 +58,11 @@ namespace Phoenix.Helpers
         /// <summary>
         ///A method that converts an integer and double to a boolean value.
         /// </summary>
-        public static bool IntOrDoubleToBoolean<T>(T value, bool outflank = false)
+        public static bool NumberToBoolean<T>(T value, bool outflank = false)
         {
-            Utils.ProtectedConstraintOnIntOrDouble(value, outflank);
+            Utils.ProtectedConstraintOnNumber(value, outflank);
 
-            return !(value.ToString() == 0.ToString());
+            return !(value.ToString() == "0");
         }
 
         /// <summary>

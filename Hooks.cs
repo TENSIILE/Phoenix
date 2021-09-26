@@ -10,25 +10,25 @@ namespace Phoenix
         /// <summary>
         /// Hook method that creates the state of the form.
         /// </summary>
-        protected static State<T> UseState<T>(T value)
+        protected State<T> UseState<T>(T value, string storeType = StoreTypes.LOCAL)
         {
-            return new State<T>(value, _store);
+            return new State<T>(value, GetStoreByType(storeType));
         }
 
         /// <summary>
         /// State tracking hook method.
         /// </summary>
-        protected string UseEffect(Action callback, string[] deps, bool isRunStartAway = false)
+        protected string UseEffect(Action callback, string[] deps, bool isRunStartAway = false, string storeType = StoreTypes.LOCAL)
         {
-            return _store.Effect(callback, deps, isRunStartAway);
+            return GetStoreByType(storeType).Effect(callback, deps, isRunStartAway);
         }
 
         /// <summary>
         /// A method for canceling the state tracking hook.
         /// </summary>
-        protected void UseCancelEffect(string id)
+        protected void UseCancelEffect(string id, string storeType = StoreTypes.LOCAL)
         {
-            _store.CancelEffect(id);
+            GetStoreByType(storeType).CancelEffect(id);
         }
 
         /// <summary>
@@ -36,9 +36,9 @@ namespace Phoenix
         /// Accepts a reducer of type (state, action) => newState, and returns the current state paired with a dispatch method.
         /// (If you’re familiar with Redux, you already know how this works.)
         /// </summary>
-        protected Reducer<T> UseReducer<T>(ReducerActionCallback<T> reducer, T initialState)
+        protected Reducer<T> UseReducer<T>(ReducerActionCallback<T> reducer, T initialState, string storeType = StoreTypes.LOCAL)
         {
-            return new Reducer<T>(this, reducer, initialState);
+            return new Reducer<T>(GetStoreByType(storeType), reducer, initialState);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Phoenix
             Init();
             forms.ForEach((PhoenixForm form) =>
             {
-                PhoenixContainerForms.Append(form.Name, form);
+                PContainer.Append(form.Name, form);
                 form.InitializeEvents();
                 form.EnableFormHiding();
             });

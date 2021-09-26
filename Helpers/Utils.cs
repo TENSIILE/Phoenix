@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Reflection;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 
 namespace Phoenix.Helpers
@@ -23,11 +24,19 @@ namespace Phoenix.Helpers
             return string.Join(" ", expressions).Contains("True");
         }
 
-        internal static void ProtectedConstraintOnIntOrDouble<T>(T value, bool outflank = false)
+        /// <summary>
+        /// The method of comparing elements and finding one true one.
+        /// </summary>
+        public static bool CompareOrEqual<T>(T obj, List<T> expressions)
         {
-            if (!CompareOr(TypeMatchers.IsInt(value), TypeMatchers.IsDouble(value)) && !outflank)
+            return expressions.FindIndex(el => el.ToString() == obj.ToString()) != -1;
+        }
+
+        internal static void ProtectedConstraintOnNumber<T>(T value, bool outflank = false)
+        {
+            if (!CompareOr(TypeMatchers.IsInt(value), TypeMatchers.IsDouble(value), TypeMatchers.IsFloat(value)) && !outflank)
             {
-                throw new ArgumentException("The method only accepts Int and Double types!");
+                throw new ArgumentException("This method only accepts Int or Double or Float types!");
             }
         }
 

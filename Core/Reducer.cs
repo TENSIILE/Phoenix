@@ -16,7 +16,6 @@
 
     public class Reducer<T>
     {
-        private readonly PhoenixForm _form;
         private readonly ReducerActionCallback<T> _reducer;
         private readonly State<T> _initialState;
 
@@ -30,11 +29,10 @@
         /// </summary>
         public string Name => _initialState.Name;
 
-        public Reducer(PhoenixForm form, ReducerActionCallback<T> reducer, T initialState)
+        public Reducer(Store store, ReducerActionCallback<T> reducer, T initialState)
         {
-            _form = form;
             _reducer = reducer;
-            _initialState = new State<T>(initialState, _form.GetStaticStore);
+            _initialState = new State<T>(initialState, store);
         }
 
         /// <summary>

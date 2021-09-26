@@ -9,7 +9,7 @@ namespace Phoenix.Extentions
         /// </summary>
         public static bool ToBool(this object self)
         {
-            return Converting.ObjectToBoolean(self) && Converting.IntOrDoubleToBoolean(self, true);
+            return Converting.ObjectToBoolean(self) && Converting.NumberToBoolean(self, true);
         }
     }
 }

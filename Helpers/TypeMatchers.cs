@@ -2,7 +2,7 @@
 
 namespace Phoenix.Helpers
 {
-    public class TypeMatchers
+    public static class TypeMatchers
     {
         private const string _NUMBER = "number";
         private const string _STRING = "string";

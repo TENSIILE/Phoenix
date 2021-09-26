@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Addons\Env.cs" />
+    <Compile Include="Core\Binder.cs" />
     <Compile Include="Core\Mounting\Mounter.cs" />
     <Compile Include="Core\Mounting\OptionsForm.cs" />
     <Compile Include="Core\Storage.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Core\Provider.cs" />
     <Compile Include="Core\Reducer.cs" />
     <Compile Include="Core\Router.cs" />
+    <Compile Include="Core\StoreTypes.cs" />
     <Compile Include="Db\PhoenixDB.cs" />
     <Compile Include="Db\PhoenixDML.cs" />
     <Compile Include="Addons\Async.cs" />

@@ -3,18 +3,25 @@ using Phoenix.Extentions;
 
 namespace Phoenix
 {
-    public class PhoenixContainerFormsType : Dictionary<string, PhoenixForm> { }
+    internal class PContainerFormsType : Dictionary<string, PhoenixForm> { }
 
-    public static class PhoenixContainerForms
+    public static class PContainer
     {
-        private static PhoenixContainerFormsType _phoenixListForms = new PhoenixContainerFormsType();
+        private static PContainerFormsType _phoenixListForms = new PContainerFormsType();
 
         /// <summary>
         /// The method returns the form by its name.
         /// </summary>
         public static PhoenixForm Get(string nameForm)
         {
-            return _phoenixListForms.Get(nameForm);
+            try
+            {
+                return _phoenixListForms.Get(nameForm);
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new KeyNotFoundException($@"The container does not have a form with such a key - {nameForm}");
+            }
         }
 
         /// <summary>
