@@ -7,7 +7,7 @@ namespace Phoenix.Core.Mounting
 {
     public static class Mounter
     {
-        private static Dictionary<string, OptionsForm> _optionsForm = new Dictionary<string, OptionsForm>();
+        private static Dictionary<string, FormSettings> _optionsForm = new Dictionary<string, FormSettings>();
 
         /// <summary>
         /// A method for attaching a form component to a specified panel.
@@ -16,7 +16,7 @@ namespace Phoenix.Core.Mounting
         {
             UnmountComponent(panel);
 
-            OptionsForm options = new OptionsForm(childForm.FormBorderStyle);
+            FormSettings options = new FormSettings(childForm.FormBorderStyle);
 
             _optionsForm.AddWithReplacement(childForm.Name, options);
 
