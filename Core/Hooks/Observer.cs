@@ -31,7 +31,7 @@ namespace Phoenix.Core
         public string Name
         {
             get => _name;
-            protected set
+            internal set
             {
                 _name = value;
             }

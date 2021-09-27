@@ -28,6 +28,7 @@
         {
             _reducer = reducer;
             _state = new State<T>(initialState, store);
+            _state.Name = Name;
         }
 
         /// <summary>
