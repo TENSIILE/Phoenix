@@ -66,7 +66,7 @@ namespace Phoenix.Core
         /// </summary>
         public void CancelEffect(string id)
         {
-            int index =_effects.FindIndex((Tuple<string[], Action, string> effect) => effect.Item3 == id);
+            int index = _effects.FindIndex((Tuple<string[], Action, string> effect) => effect.Item3 == id);
 
             _effects.RemoveAt(index);
         }

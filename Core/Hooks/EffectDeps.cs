@@ -22,7 +22,7 @@ namespace Phoenix.Core
                     throw new ArgumentException(messageError, el.ToString());
                 }
                 
-                if (el is Control || el.GetType().BaseType.Name == typeof(Observer<>).Name)
+                if (el is Control || (el.GetType().BaseType.Name == typeof(Observer<>).Name))
                 {
                     return el.GetType().GetProperty("Name").GetValue(el).ToString();
                 }
