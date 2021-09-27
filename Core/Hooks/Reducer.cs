@@ -14,25 +14,20 @@
     
     public delegate T ReducerActionCallback<T>(State<T> state, ReducerAction action);
 
-    public class Reducer<T>
+    public class Reducer<T> : Observer<T>
     {
         private readonly ReducerActionCallback<T> _reducer;
-        private readonly State<T> _initialState;
+        private readonly State<T> _state;
 
         /// <summary>
         /// An accessor that returns the value of a reducer instance.
         /// </summary>
-        public T Value => _initialState.Value;
+        public override T Value => _state.Value;
 
-        /// <summary>
-        /// An accessor that returns the name of a reducer instance.
-        /// </summary>
-        public string Name => _initialState.Name;
-
-        public Reducer(Store store, ReducerActionCallback<T> reducer, T initialState)
+        public Reducer(Store store, ReducerActionCallback<T> reducer, T initialState) : base(initialState)
         {
             _reducer = reducer;
-            _initialState = new State<T>(initialState, store);
+            _state = new State<T>(initialState, store);
         }
 
         /// <summary>
@@ -40,7 +35,7 @@
         /// </summary>
         public void Dispatch(string type, dynamic payload = null)
         {
-            _initialState.Value = _reducer(_initialState, new ReducerAction(type, payload));
+            _state.Value = _reducer(_state, new ReducerAction(type, payload));
         }
     }
 }

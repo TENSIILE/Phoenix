@@ -1,43 +1,25 @@
-﻿using Phoenix.Helpers;
-
-namespace Phoenix.Core
+﻿namespace Phoenix.Core
 {
-    public class State<T>
+    public class State<T> : Observer<T>
     {
-        private readonly string _name;
-
         private readonly Store _store;
-        private T _valueState;
 
-        public State(T value, Store store)
+        public State(T value, Store store) : base(value)
         {
-            _valueState = value;
             _store = store;
-
-            _name = GenerateId();
         }
 
         /// <summary>
         /// An accessor that returns and sets the value of a state instance.
         /// </summary>
-        public T Value
+        public override T Value
         {
-            get => _valueState;
+            get => base.Value;
             set
             {
-                _valueState = value;
-                _store.Dispatch(_name, _valueState);
+                base.Value = value;
+                _store.Dispatch(Name, base.Value);
             }
-        }
-
-        /// <summary>
-        /// An accessor that returns the name of a state instance.
-        /// </summary>
-        public string Name => _name; 
-
-        private string GenerateId()
-        {
-            return $@"__{Utils.GetUniqueId()}_state";
         }
     }
 }
