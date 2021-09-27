@@ -15,20 +15,21 @@ namespace Phoenix.Core
         {
             return parameters.ToList().Map((object el) =>
             {
-                if ((!TypeMatchers.IsNullOrEmpty(el) && el is Control) ||
-                (!TypeMatchers.IsNullOrEmpty(el) && el.GetType().Name == typeof(State<>).Name) ||
-                (!TypeMatchers.IsNullOrEmpty(el) && el.GetType().Name == typeof(Reducer<>).Name))
-                {
-                    return el.GetType().GetProperty("Name").GetValue(el).ToString();
-                }
-                else if (typeof(string) == el.GetType())
-                {
-                    return el.ToString();
-                }
-                else
+                if (TypeMatchers.IsNullOrEmpty(el))
                 {
                     throw new ArgumentException($@"Unable to track state changes for - '[{el.ToString()}]'!");
                 }
+
+                if (el is Control || (el.GetType().Name == typeof(State<>).Name) || (el.GetType().Name == typeof(Reducer<>).Name))
+                {
+                    return el.GetType().GetProperty("Name").GetValue(el).ToString();
+                }
+                else
+                {
+                    return el.ToString();
+                }
+                
+                throw new ArgumentException($@"Unable to track state changes for - '[{el.ToString()}]'!");
             }).Distinct().ToArray();
         }
     }

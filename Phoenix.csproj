@@ -48,7 +48,7 @@
     <Compile Include="Core\Binder.cs" />
     <Compile Include="Core\Memo.cs" />
     <Compile Include="Core\Mounting\Mounter.cs" />
-    <Compile Include="Core\Mounting\OptionsForm.cs" />
+    <Compile Include="Core\Mounting\FormSettings.cs" />
     <Compile Include="Core\Storage.cs" />
     <Compile Include="Core\EffectDeps.cs" />
     <Compile Include="Core\ListRender.cs" />
