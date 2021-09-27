@@ -37,5 +37,13 @@
         {
             _state.Value = _reducer(_state, new ReducerAction(type, payload));
         }
+
+        /// <summary>
+        /// The method generates a unique name for the state.
+        /// </summary>
+        protected override string GenerateName()
+        {
+            return $@"__{base.GenerateName()}_reducer";
+        }
     }
 }

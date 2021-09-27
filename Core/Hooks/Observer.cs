@@ -1,10 +1,16 @@
-﻿using Phoenix.Helpers;
+﻿using System;
+using Phoenix.Helpers;
 
 namespace Phoenix.Core
 {
+    internal static class ObserverCounter
+    {
+        public static int Counter { get; set; } = 0;
+    }
+
     public class Observer<T>
     {
-        private readonly string _name;
+        private string _name;
         private T _value;
 
         /// <summary>
@@ -22,10 +28,19 @@ namespace Phoenix.Core
         /// <summary>
         /// An accessor that returns the name of a observer instance.
         /// </summary>
-        public string Name => _name;
+        public string Name
+        {
+            get => _name;
+            protected set
+            {
+                _name = value;
+            }
+        }
 
         public Observer(T instanceValue)
         {
+            ++ObserverCounter.Counter;
+
             _value = instanceValue;
             _name = GenerateName();
         }
@@ -35,7 +50,13 @@ namespace Phoenix.Core
         /// </summary>
         protected virtual string GenerateName()
         {
-            return $@"__{Utils.GetUniqueId()}_state";
+            Random random = new Random();
+
+            int randomValue = random.Next(int.MinValue, int.MaxValue);
+
+            string substring = ObserverCounter.Counter.ToString() + randomValue + _value;
+
+            return Utils.GetUniqueId(substring);
         }
     }
 }

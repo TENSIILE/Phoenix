@@ -21,5 +21,13 @@
                 _store.Dispatch(Name, base.Value);
             }
         }
+
+        /// <summary>
+        /// The method generates a unique name for the state.
+        /// </summary>
+        protected override string GenerateName()
+        {
+            return $@"__{base.GenerateName()}_state"; 
+        }
     }
 }
