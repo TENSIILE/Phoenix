@@ -8,6 +8,8 @@ namespace Phoenix.Core
 {
     public static class EffectDeps
     {
+        private static readonly string messageError = "Unable to track state changes!";
+
         /// <summary>
         /// A method observing the changes in the transmitted states.
         /// </summary>
@@ -17,19 +19,21 @@ namespace Phoenix.Core
             {
                 if (TypeMatchers.IsNullOrEmpty(el))
                 {
-                    throw new ArgumentException($@"Unable to track state changes for - '[{el.ToString()}]'!");
+                    throw new ArgumentException(messageError, el.ToString());
                 }
-
-                if (el is Control || (el.GetType().Name == typeof(State<>).Name) || (el.GetType().Name == typeof(Reducer<>).Name))
+                
+                if (el is Control || el.GetType().BaseType.Name == typeof(Observer<>).Name)
                 {
                     return el.GetType().GetProperty("Name").GetValue(el).ToString();
                 }
-                else
+                else if (typeof(string) == el.GetType()) 
                 {
                     return el.ToString();
                 }
-                
-                throw new ArgumentException($@"Unable to track state changes for - '[{el.ToString()}]'!");
+                else
+                {
+                    throw new ArgumentException(messageError, el.ToString());
+                }
             }).Distinct().ToArray();
         }
     }
