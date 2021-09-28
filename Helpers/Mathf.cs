@@ -48,7 +48,7 @@ namespace Phoenix.Helpers
         /// <summary>
         /// A method that checks the equality of the first and second arguments by checking the internal values.
         /// </summary>
-        public static bool IsWeakEqual<T, R>(T one, R two)
+        public static bool IsStrongEqual<T, R>(T one, R two)
         {
             return one.ToJson() == two.ToJson();
         }

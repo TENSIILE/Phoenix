@@ -77,7 +77,7 @@ namespace Phoenix.Core
             {
                 foreach (string dep in effect.Item1)
                 {
-                    if (!Mathf.IsWeakEqual(GetState.Has(dep), GetStatePrev.Has(dep)))
+                    if (!Mathf.IsStrongEqual(GetState.Has(dep), GetStatePrev.Has(dep)))
                     {
                         effect.Item2();
                     }
