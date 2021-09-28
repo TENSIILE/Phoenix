@@ -2,11 +2,11 @@
 
 namespace Phoenix.Core.Mounting
 {
-    internal class OptionsForm
+    internal class FormSettings
     {
         public FormBorderStyle FormBorderStyle { get; private set; }
 
-        public OptionsForm(FormBorderStyle formBorderStyle)
+        public FormSettings(FormBorderStyle formBorderStyle)
         {
             FormBorderStyle = formBorderStyle;
         }

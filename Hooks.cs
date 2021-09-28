@@ -42,6 +42,14 @@ namespace Phoenix
         }
 
         /// <summary>
+        /// Hook method memorizes an unnecessary re render.
+        /// </summary>
+        protected void UseMemo(Action callback, string[] deps, string storeType = StoreTypes.LOCAL)
+        {
+            new Memo(GetStoreByType(storeType)).Memoize(callback, deps);
+        }
+
+        /// <summary>
         /// Hook method creating a multiple window application.
         /// </summary>
         protected void UseCreateMWA(List<PhoenixForm> forms)

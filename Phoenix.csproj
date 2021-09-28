@@ -45,16 +45,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Addons\Env.cs" />
-    <Compile Include="Core\Binder.cs" />
+    <Compile Include="Core\Hooks\Observer.cs" />
+    <Compile Include="Core\Repository\Binder.cs" />
+    <Compile Include="Core\Hooks\Memo.cs" />
     <Compile Include="Core\Mounting\Mounter.cs" />
-    <Compile Include="Core\Mounting\OptionsForm.cs" />
-    <Compile Include="Core\Storage.cs" />
-    <Compile Include="Core\EffectDeps.cs" />
+    <Compile Include="Core\Mounting\FormSettings.cs" />
+    <Compile Include="Core\Repository\Storage.cs" />
+    <Compile Include="Core\Hooks\EffectDeps.cs" />
     <Compile Include="Core\ListRender.cs" />
     <Compile Include="Core\Provider.cs" />
-    <Compile Include="Core\Reducer.cs" />
-    <Compile Include="Core\Router.cs" />
-    <Compile Include="Core\StoreTypes.cs" />
+    <Compile Include="Core\Hooks\Reducer.cs" />
+    <Compile Include="Core\Hooks\Router.cs" />
+    <Compile Include="Core\Repository\StoreTypes.cs" />
     <Compile Include="Db\PhoenixDB.cs" />
     <Compile Include="Db\PhoenixDML.cs" />
     <Compile Include="Addons\Async.cs" />
@@ -77,8 +79,8 @@
     </Compile>
     <Compile Include="PhoenixContainerForms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\State.cs" />
-    <Compile Include="Core\Store.cs" />
+    <Compile Include="Core\Hooks\State.cs" />
+    <Compile Include="Core\Repository\Store.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

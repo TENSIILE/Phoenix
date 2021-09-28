@@ -75,7 +75,7 @@ namespace Phoenix.Helpers
         /// <summary>
         /// A method that generates a unique id.
         /// </summary>
-        public static string GetUniqueId()
+        public static string GetUniqueId(string substring = null)
         {
             DateTime date = new DateTime(1970, 1, 1);
 
@@ -87,7 +87,7 @@ namespace Phoenix.Helpers
 
             using (SHA256 sha256Hash = SHA256.Create())
             {
-                string hash = GetHash(sha256Hash, span.TotalMilliseconds.ToString());
+                string hash = GetHash(sha256Hash, span.TotalMilliseconds.ToString() + substring);
 
                 return hash;
             }

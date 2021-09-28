@@ -66,7 +66,7 @@ namespace Phoenix.Core
         /// </summary>
         public void CancelEffect(string id)
         {
-            int index =_effects.FindIndex((Tuple<string[], Action, string> effect) => effect.Item3 == id);
+            int index = _effects.FindIndex((Tuple<string[], Action, string> effect) => effect.Item3 == id);
 
             _effects.RemoveAt(index);
         }
@@ -104,7 +104,7 @@ namespace Phoenix.Core
         public void DispatchAsComponent(Control observeComponent)
         {
             Dispatch(observeComponent.Name, observeComponent.Text);
-            ReactiveUpdateTargets(observeComponent.Name, observeComponent.Text);
+            UpdateTargets(observeComponent.Name, observeComponent.Text);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Phoenix.Core
         public void DispatchAsComponentExtended<T, R>(T observeComponent, R value, string property, bool isAddToStore = false) where T : Control
         {
             Dispatch(observeComponent.Name, observeComponent.Text);
-            ReactiveUpdatePropertiesTargetWithSettings(observeComponent.Name, value, property, isAddToStore, Dispatch);
+            UpdatePropertiesTargetWithSettings(observeComponent.Name, value, property, isAddToStore, Dispatch);
         }
 
         /// <summary>
