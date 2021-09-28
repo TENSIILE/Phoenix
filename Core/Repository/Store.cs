@@ -113,7 +113,7 @@ namespace Phoenix.Core
         /// </summary>
         public void DispatchAsComponentExtended<T, R>(T observeComponent, R value, string property, bool isAddToStore = false) where T : Control
         {
-            Dispatch(observeComponent.Name, observeComponent.Text);
+            Dispatch(observeComponent.Name, value);
             UpdatePropertiesTargetWithSettings(observeComponent.Name, value, property, isAddToStore, Dispatch);
         }
 
