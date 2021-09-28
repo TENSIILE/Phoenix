@@ -12,7 +12,7 @@ namespace Phoenix.Core
         public Storage(Dictionary<string, dynamic> store) : base(store) { }
 
         /// <summary>
-        /// A method to expand the entire store.
+        /// A method to expand the entire Store.
         /// </summary>
         public string Scan()
         {
@@ -20,7 +20,7 @@ namespace Phoenix.Core
         }
 
         /// <summary>
-        /// Returns the value from storage corresponding to the passed component.
+        /// The method returns a value from Store corresponding to the passed component.
         /// </summary>
         public T GetByComponent<T>(Control component)
         {
@@ -28,7 +28,7 @@ namespace Phoenix.Core
         }
 
         /// <summary>
-        /// Returns the value from storage corresponding to the passed state.
+        /// The method returns a value from Store corresponding to the passed state.
         /// </summary>
         public T GetByState<T>(State<T> state)
         {
@@ -36,7 +36,7 @@ namespace Phoenix.Core
         }
 
         /// <summary>
-        /// Returns the value from storage corresponding to the passed reducer.
+        /// The method returns a value from Store corresponding to the passed reducer.
         /// </summary>
         public T GetByReducer<T>(Reducer<T> reducer)
         {
@@ -44,7 +44,7 @@ namespace Phoenix.Core
         }
 
         /// <summary>
-        /// A method has been created that returns a value from the storage according to the passed observing state.
+        /// A method has been created that returns a value from the Store according to the passed observing state.
         /// </summary>
         public T GetBy<T>(Observer<T> observerState)
         {
@@ -52,7 +52,7 @@ namespace Phoenix.Core
         }
 
         /// <summary>
-        /// Returns the value from the Storage for the given key.
+        /// The method returns a value from the Store for the given key.
         /// </summary>
         public T Take<T>(string key)
         {
