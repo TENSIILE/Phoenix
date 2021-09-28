@@ -38,7 +38,7 @@ namespace Phoenix
         /// </summary>
         protected Reducer<T> UseReducer<T>(ReducerActionCallback<T> reducer, T initialState, string storeType = StoreTypes.LOCAL)
         {
-            return new Reducer<T>(GetStoreByType(storeType), reducer, initialState);
+            return new Reducer<T>(reducer, initialState, GetStoreByType(storeType));
         }
 
         /// <summary>

@@ -24,7 +24,7 @@
         /// </summary>
         public override T Value => _state.Value;
 
-        public Reducer(Store store, ReducerActionCallback<T> reducer, T initialState) : base(initialState)
+        public Reducer(ReducerActionCallback<T> reducer, T initialState, Store store) : base(initialState)
         {
             _reducer = reducer;
             _state = new State<T>(initialState, store);
