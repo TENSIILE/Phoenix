@@ -45,7 +45,7 @@ namespace Phoenix
 
         
         internal event Action FormDidHide;
-        internal event Action FormDidShow;
+        internal event Action<object> FormDidShow;
 
         internal Store GetStoreByType(string storeType = StoreTypes.LOCAL)
         {
@@ -139,18 +139,15 @@ namespace Phoenix
         /// <summary>
         /// The method hides the control from the user.
         /// </summary>
-        public new void Close()
-        {
-            Hide();
-        }
+        public new void Close() => Hide();
 
         /// <summary>
-        /// Form showing method.
+        /// Form display method.
         /// </summary>
-        public new void Show()
+        public void Show(object args = null)
         {
             base.Show();
-            FormDidShow?.Invoke();
+            FormDidShow?.Invoke(args);
         }
 
         /// <summary>
@@ -178,7 +175,7 @@ namespace Phoenix
         /// <summary>
         /// Lifecycle method, executed when the form is created.
         /// </summary>
-        protected virtual void FormDidMount() { }
+        protected virtual void FormDidMount(object args) { }
         /// <summary>
         /// Lifecycle method, executed when the form is destroyed.
         /// </summary>
