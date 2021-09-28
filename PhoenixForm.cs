@@ -115,27 +115,14 @@ namespace Phoenix
         /// <summary>
         /// A method for finding components on a form by their type.
         /// Returns an array of found components in the form.
-        /// You can also exclude specific components by their name when searching.
         /// </summary>
-        public T[] GetComponent<T>(string[] nameExceptions = null) where T : Control
+        public T[] GetComponent<T>() where T : Control
         {
             List<T> result = new List<T>();
 
             foreach (Control control in Controls.OfType<T>())
             {
                 result.Add((T)control);
-            }
-
-            if (TypeMatchers.IsNull(nameExceptions))
-            {
-                return result.ToArray();
-            }
-
-            foreach (string exception in nameExceptions)
-            {
-                int index = result.FindIndex((T el) => el.Name == exception);
-
-                result.RemoveAt(index);
             }
 
             return result.ToArray();

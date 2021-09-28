@@ -60,6 +60,7 @@
     <Compile Include="Db\PhoenixDB.cs" />
     <Compile Include="Db\PhoenixDML.cs" />
     <Compile Include="Addons\Async.cs" />
+    <Compile Include="Extentions\ControlExtentions.cs" />
     <Compile Include="Extentions\DictionaryExtentions.cs" />
     <Compile Include="Extentions\ListExtentions.cs" />
     <Compile Include="Extentions\ObjectExtentions.cs" />
