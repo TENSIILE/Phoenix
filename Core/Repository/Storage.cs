@@ -44,6 +44,14 @@ namespace Phoenix.Core
         }
 
         /// <summary>
+        /// A method has been created that returns a value from the storage according to the passed observing state.
+        /// </summary>
+        public T GetBy<T>(Observer<T> observerState)
+        {
+            return this[observerState.Name.ToString()];
+        }
+
+        /// <summary>
         /// Returns the value from the Storage for the given key.
         /// </summary>
         public T Take<T>(string key)
