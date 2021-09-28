@@ -2,8 +2,8 @@
 {
     public class ReducerAction
     {
-        public string Type;
-        public dynamic Payload;
+        public string Type { get; private set; }
+        public dynamic Payload { get; private set; }
 
         public ReducerAction(string type, dynamic payload)
         {
