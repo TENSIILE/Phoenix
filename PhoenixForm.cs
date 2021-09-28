@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows.Forms;
 using System.ComponentModel;
 using Phoenix.Core;
-using Phoenix.Helpers;
 
 namespace Phoenix
 {
@@ -138,12 +137,29 @@ namespace Phoenix
         }
 
         /// <summary>
+        /// The method hides the control from the user.
+        /// </summary>
+        public new void Close()
+        {
+            Hide();
+        }
+
+        /// <summary>
         /// Form showing method.
         /// </summary>
         public new void Show()
         {
             base.Show();
             FormDidShow?.Invoke();
+        }
+
+        /// <summary>
+        /// The method completely destroys the form from the system.
+        /// </summary>
+        public void Destroy()
+        {
+            base.Close();
+            PContainer.Delete(Name);
         }
 
         private void PhoenixClosing(object sender, FormClosingEventArgs e)
