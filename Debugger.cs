@@ -12,7 +12,7 @@ namespace Phoenix
         /// </summary>
         public static void Log(params dynamic[] parameters)
         {
-            Console.WriteLine(parameters?.ToList().Unite(", "));
+            Console.WriteLine(parameters?.ToList().Unite(" "));
         }
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace Phoenix
         /// </summary>
         public static void LogAsJson(params dynamic[] parameters)
         {
-            Console.WriteLine(string.Join(", ", parameters?.ToList().ToJson()));
+            Console.WriteLine(string.Join(" ", parameters?.ToList().ToJson()));
         }
     }
 }
