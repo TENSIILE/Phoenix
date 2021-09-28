@@ -69,7 +69,7 @@ namespace Phoenix.Core
             return false;
         }
 
-        protected void ReactiveUpdateTargets<T>(string type, T payload)
+        protected void UpdateTargets<T>(string type, T payload)
         {
             foreach (KeyValuePair<string, List<dynamic>> target in _targets)
             {
@@ -96,7 +96,7 @@ namespace Phoenix.Core
 
         protected delegate void DelegateDispatch<T>(string type, T payload);
 
-        protected void ReactiveUpdatePropertiesTargetWithSettings<T>(string type, T payload, string property, bool isAddToStore, DelegateDispatch<T> Dispatch)
+        protected void UpdatePropertiesTargetWithSettings<T>(string type, T payload, string property, bool isAddToStore, DelegateDispatch<T> Dispatch)
         {
             foreach (KeyValuePair<string, List<dynamic>> target in _targets)
             {
