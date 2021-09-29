@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Phoenix.Core;
+using Phoenix.Helpers;
 
 namespace Phoenix
 {
@@ -47,6 +48,14 @@ namespace Phoenix
         protected void UseMemo(Action callback, string[] deps, string storeType = StoreTypes.LOCAL)
         {
             new Memo(GetStoreByType(storeType)).Memoize(callback, deps);
+        }
+
+        /// <summary>
+        /// A hook that translates all changes to the specified repository to the global one.
+        /// </summary>
+        protected Broadcast UseBroadcast(Store store = null)
+        {
+            return new Broadcast(this, TypeMatchers.IsNull(store) ? Store : store);
         }
 
         /// <summary>

@@ -46,6 +46,14 @@ namespace Phoenix.Core
         }
 
         /// <summary>
+        /// Method removing subscriber.
+        /// </summary>
+        public void Unsubscribe(Action callback)
+        {
+            _subscribers.Remove(callback);
+        }
+
+        /// <summary>
         /// State tracking method.
         /// </summary>
         public string Effect(Action callback, string[] deps, bool isRunStartAway = false)
