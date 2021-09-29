@@ -59,6 +59,24 @@ namespace Phoenix
         }
 
         /// <summary>
+        /// A hook that guarantees that a value with a specific key exists in the store.
+        /// And if so, then the callback will be executed.
+        /// </summary>
+        protected void UseEnsure<T>(string key, Action<T> callback, string storeType = StoreTypes.LOCAL)
+        {
+            new Ensurer(this).Insure(key, callback, storeType);
+        }
+
+        /// <summary>
+        /// A hook that guarantees that a value with a specific key exists in the store.
+        /// And if so, then the callback will be executed.
+        /// </summary>
+        protected void UseEnsure<T>(Observer<T> observer, Action<T> callback, string storeType = StoreTypes.LOCAL)
+        {
+            new Ensurer(this).Insure(observer.Name, callback, storeType);
+        }
+
+        /// <summary>
         /// Hook method creating a multiple window application.
         /// </summary>
         protected void UseCreateMWA(List<PhoenixForm> forms)

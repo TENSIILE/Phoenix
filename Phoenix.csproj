@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Addons\Env.cs" />
     <Compile Include="Core\Hooks\Broadcast.cs" />
+    <Compile Include="Core\Hooks\Ensurer.cs" />
     <Compile Include="Core\Hooks\Observer.cs" />
     <Compile Include="Core\Repository\Binder.cs" />
     <Compile Include="Core\Hooks\Memo.cs" />
