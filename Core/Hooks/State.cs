@@ -1,6 +1,6 @@
 ﻿namespace Phoenix.Core
 {
-    public class State<T> : Observer<T>
+    public sealed class State<T> : Observer<T>
     {
         private readonly Store _store;
 

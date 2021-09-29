@@ -14,7 +14,7 @@
     
     public delegate T ReducerActionCallback<T>(State<T> state, ReducerAction action);
 
-    public class Reducer<T> : Observer<T>
+    public sealed class Reducer<T> : Observer<T>
     {
         private readonly ReducerActionCallback<T> _reducer;
         private readonly State<T> _state;
