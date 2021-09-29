@@ -56,7 +56,7 @@ namespace Phoenix.Core
         /// <summary>
         /// State tracking method.
         /// </summary>
-        public string Effect(Action callback, string[] deps, bool isRunStartAway = false)
+        public string Effect(Action callback, string[] deps, bool isRun = false)
         {
             string id = Utils.GetUniqueId();
 
@@ -64,7 +64,7 @@ namespace Phoenix.Core
 
             _effects.Add(effect);
 
-            if (isRunStartAway) callback();
+            if (isRun) callback();
 
             return id;
         }
