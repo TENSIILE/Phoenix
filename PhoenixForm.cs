@@ -137,11 +137,6 @@ namespace Phoenix
         }
 
         /// <summary>
-        /// The method hides the control from the user.
-        /// </summary>
-        public new void Close() => Hide();
-
-        /// <summary>
         /// Form display method.
         /// </summary>
         public void Show(object args = null)
@@ -155,8 +150,9 @@ namespace Phoenix
         /// </summary>
         public void Destroy()
         {
-            base.Close();
             PContainer.Delete(Name);
+            DisableFormHiding();
+            Close();
         }
 
         private void PhoenixClosing(object sender, FormClosingEventArgs e)
