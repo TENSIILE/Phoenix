@@ -44,8 +44,8 @@ namespace Phoenix
         public Provider StaticProvider => _provider;
 
         
-        internal event Action FormDidHide;
-        internal event Action<object> FormDidShow;
+        internal event Action<dynamic> FormDidHide;
+        internal event Action<dynamic> FormDidShow;
 
         internal Store GetStoreByType(string storeType = StoreTypes.LOCAL)
         {
@@ -130,16 +130,16 @@ namespace Phoenix
         /// <summary>
         /// The method hides the control from the user.
         /// </summary>
-        public new void Hide()
+        public void Hide(dynamic args = null)
         {
             base.Hide();
-            FormDidHide?.Invoke();
+            FormDidHide?.Invoke(args);
         }
 
         /// <summary>
         /// Form display method.
         /// </summary>
-        public void Show(object args = null)
+        public void Show(dynamic args = null)
         {
             base.Show();
             FormDidShow?.Invoke(args);
@@ -171,11 +171,11 @@ namespace Phoenix
         /// <summary>
         /// Lifecycle method, executed when the form is created.
         /// </summary>
-        protected virtual void FormDidMount(object args) { }
+        protected virtual void FormDidMount(dynamic args) { }
         /// <summary>
         /// Lifecycle method, executed when the form is destroyed.
         /// </summary>
-        protected virtual void FormWillUnmount() { }
+        protected virtual void FormWillUnmount(dynamic args) { }
         /// <summary>
         /// The lifecycle method is executed once when the form is first launched, 
         /// starting the listeners initialized in this method.
