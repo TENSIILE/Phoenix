@@ -20,6 +20,14 @@ namespace Phoenix.Core
         }
 
         /// <summary>
+        /// A simplified method for expanding the entire Store.
+        /// </summary>
+        public string SimpleScan()
+        {
+            return this.Spread().ToJson();
+        }
+
+        /// <summary>
         /// The method returns a value from Store corresponding to the passed component.
         /// </summary>
         public T GetByComponent<T>(Control component)
