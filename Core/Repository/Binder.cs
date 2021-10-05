@@ -94,9 +94,9 @@ namespace Phoenix.Core
             }
         }
 
-        protected delegate void DelegateDispatch<T>(string type, T payload);
+        protected delegate void DispatchCallback<T>(string type, T payload);
 
-        protected void UpdatePropertiesTargetWithSettings<T>(string type, T payload, string property, bool isAddToStore, DelegateDispatch<T> Dispatch)
+        protected void UpdatePropertiesTargetWithSettings<T>(string type, T payload, string property, bool isAddToStore, DispatchCallback<T> dispatch)
         {
             foreach (KeyValuePair<string, List<dynamic>> target in _targets)
             {
@@ -106,13 +106,13 @@ namespace Phoenix.Core
                     {
                         try
                         {
-                            if (isAddToStore) Dispatch(item.Name, payload);
+                            if (isAddToStore) dispatch(item.Name, payload);
 
                             ((object)item).GetType().GetProperty(property).SetValue(item, payload);
                         }
                         catch (NullReferenceException)
                         {
-                            throw new ArgumentException($@"The property ['{property}'] was not found for the component!");
+                            throw new ArgumentException($@"The property ['{property}'] was not found for the component!", property);
                         }
                     }
                 }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows.Forms;
 using System.ComponentModel;
 using Phoenix.Core;
-using Phoenix.Helpers;
 
 namespace Phoenix
 {
@@ -45,8 +44,8 @@ namespace Phoenix
         public Provider StaticProvider => _provider;
 
         
-        internal event Action FormDidHide;
-        internal event Action FormDidShow;
+        internal event Action<dynamic> FormDidHide;
+        internal event Action<dynamic> FormDidShow;
 
         internal Store GetStoreByType(string storeType = StoreTypes.LOCAL)
         {
@@ -115,9 +114,8 @@ namespace Phoenix
         /// <summary>
         /// A method for finding components on a form by their type.
         /// Returns an array of found components in the form.
-        /// You can also exclude specific components by their name when searching.
         /// </summary>
-        public T[] GetComponent<T>(string[] nameExceptions = null) where T : Control
+        public T[] GetComponent<T>() where T : Control
         {
             List<T> result = new List<T>();
 
@@ -126,37 +124,35 @@ namespace Phoenix
                 result.Add((T)control);
             }
 
-            if (TypeMatchers.IsNull(nameExceptions))
-            {
-                return result.ToArray();
-            }
-
-            foreach (string exception in nameExceptions)
-            {
-                int index = result.FindIndex((T el) => el.Name == exception);
-
-                result.RemoveAt(index);
-            }
-
             return result.ToArray();
         }
 
         /// <summary>
         /// The method hides the control from the user.
         /// </summary>
-        public new void Hide()
+        public void Hide(dynamic args = null)
         {
             base.Hide();
-            FormDidHide?.Invoke();
+            FormDidHide?.Invoke(args);
         }
 
         /// <summary>
-        /// Form showing method.
+        /// Form display method.
         /// </summary>
-        public new void Show()
+        public void Show(dynamic args = null)
         {
             base.Show();
-            FormDidShow?.Invoke();
+            FormDidShow?.Invoke(args);
+        }
+
+        /// <summary>
+        /// The method completely destroys the form from the system.
+        /// </summary>
+        public void Destroy()
+        {
+            PContainer.Delete(Name);
+            DisableFormHiding();
+            Close();
         }
 
         private void PhoenixClosing(object sender, FormClosingEventArgs e)
@@ -175,11 +171,11 @@ namespace Phoenix
         /// <summary>
         /// Lifecycle method, executed when the form is created.
         /// </summary>
-        protected virtual void FormDidMount() { }
+        protected virtual void FormDidMount(dynamic args) { }
         /// <summary>
         /// Lifecycle method, executed when the form is destroyed.
         /// </summary>
-        protected virtual void FormWillUnmount() { }
+        protected virtual void FormWillUnmount(dynamic args) { }
         /// <summary>
         /// The lifecycle method is executed once when the form is first launched, 
         /// starting the listeners initialized in this method.

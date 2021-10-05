@@ -46,17 +46,25 @@ namespace Phoenix.Core
         }
 
         /// <summary>
+        /// Method removing subscriber.
+        /// </summary>
+        public void Unsubscribe(Action callback)
+        {
+            _subscribers.Remove(callback);
+        }
+
+        /// <summary>
         /// State tracking method.
         /// </summary>
-        public string Effect(Action callback, string[] deps, bool isRunStartAway = false)
+        public string Effect(Action callback, string[] deps, bool isRun = false)
         {
-            string id = Utils.GetUniqueId();
+            string id = Utils.GetUniqueId(string.Join("", deps));
 
             Tuple<string[], Action, string> effect = new Tuple<string[], Action, string>(deps, callback, id);
 
             _effects.Add(effect);
 
-            if (isRunStartAway) callback();
+            if (isRun) callback();
 
             return id;
         }
@@ -77,7 +85,7 @@ namespace Phoenix.Core
             {
                 foreach (string dep in effect.Item1)
                 {
-                    if (!Mathf.IsWeakEqual(GetState.Has(dep), GetStatePrev.Has(dep)))
+                    if (!Mathf.IsStrongEqual(GetState.Has(dep), GetStatePrev.Has(dep)))
                     {
                         effect.Item2();
                     }
@@ -113,7 +121,7 @@ namespace Phoenix.Core
         /// </summary>
         public void DispatchAsComponentExtended<T, R>(T observeComponent, R value, string property, bool isAddToStore = false) where T : Control
         {
-            Dispatch(observeComponent.Name, observeComponent.Text);
+            Dispatch(observeComponent.Name, value);
             UpdatePropertiesTargetWithSettings(observeComponent.Name, value, property, isAddToStore, Dispatch);
         }
 

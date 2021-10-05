@@ -2,8 +2,8 @@
 {
     public class ReducerAction
     {
-        public string Type;
-        public dynamic Payload;
+        public string Type { get; private set; }
+        public dynamic Payload { get; private set; }
 
         public ReducerAction(string type, dynamic payload)
         {
@@ -14,7 +14,7 @@
     
     public delegate T ReducerActionCallback<T>(State<T> state, ReducerAction action);
 
-    public class Reducer<T> : Observer<T>
+    public sealed class Reducer<T> : Observer<T>
     {
         private readonly ReducerActionCallback<T> _reducer;
         private readonly State<T> _state;
@@ -24,7 +24,7 @@
         /// </summary>
         public override T Value => _state.Value;
 
-        public Reducer(Store store, ReducerActionCallback<T> reducer, T initialState) : base(initialState)
+        public Reducer(ReducerActionCallback<T> reducer, T initialState, Store store) : base(initialState)
         {
             _reducer = reducer;
             _state = new State<T>(initialState, store);
