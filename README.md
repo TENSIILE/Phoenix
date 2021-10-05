@@ -18,6 +18,7 @@ At this stage of the development of the framework, it is not in the NuGet packag
  
 
 ## Features
+- Life cycle methods;
 - Hooks;
 - Creation of your own hooks;
 - Various types of storages;
@@ -25,7 +26,7 @@ At this stage of the development of the framework, it is not in the NuGet packag
 - Single-page and multi-page applications;
 - Reactive render;
 - Instant transmission of data through forms;
-- Easy management of all existing forms through the container.
+- Easy management of all existing forms through the container;
 - Additional features;
 - Etc.
 
