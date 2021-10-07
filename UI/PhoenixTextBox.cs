@@ -59,7 +59,7 @@ namespace Phoenix.UI
             get => _isPlaceHolder ? string.Empty : base.Text;
             set
             {
-                if (!string.IsNullOrEmpty(value) && !_isPlaceHolder)
+                if (!string.IsNullOrEmpty(value) && _placeHolderText != value)
                 {
                     RemovePlaceHolder();
                     base.Text = value;
