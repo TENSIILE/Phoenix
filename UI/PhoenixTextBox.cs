@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace Phoenix.UI
 {
     public class PhoenixTextBox : TextBox
     {
-        private bool _isPlaceHolder = true;
+        private bool _isPlaceHolder = false;
         private bool _enableNumericInput = false;
         private bool _isChangeHeight = false;
-        private Color _prevForeColor;
+
+        private Color _colorText;
 
         private string _placeHolderText;
 
@@ -18,8 +20,11 @@ namespace Phoenix.UI
             GotFocus += RemovePlaceHolderHandler;
             LostFocus += SetPlaceholderHandler;
             KeyPress += KeyPressTextBoxHandler;
+
+            _colorText = ForeColor;
         }
 
+        [DefaultValue(null)]
         public string PlaceHolderText
         {
             get => _placeHolderText;
@@ -30,19 +35,21 @@ namespace Phoenix.UI
             }
         }
 
+        [DefaultValue(false)]
         public bool EnableNumericInput
         {
             get => _enableNumericInput;
             set => _enableNumericInput = value;
         }
 
+        [DefaultValue(false)]
         public bool IsChangeHeight
         {
             get => _isChangeHeight;
             set
             {
-                Multiline = true;
-                WordWrap = false;
+                Multiline = value;
+                WordWrap = !value;
                 _isChangeHeight = value;
             }
         }
@@ -52,8 +59,11 @@ namespace Phoenix.UI
             get => _isPlaceHolder ? string.Empty : base.Text;
             set
             {
-                base.Text = value;
-                RemovePlaceHolder();
+                if (!string.IsNullOrEmpty(value) && !_isPlaceHolder)
+                {
+                    RemovePlaceHolder();
+                    base.Text = value;
+                }
             }
         }
 
@@ -61,8 +71,7 @@ namespace Phoenix.UI
         {
             if (string.IsNullOrEmpty(base.Text))
             {
-                base.Text = PlaceHolderText;
-                _prevForeColor = ForeColor;
+                base.Text = _placeHolderText;
                 ForeColor = Color.Gray;
                 _isPlaceHolder = true;
             }
@@ -74,7 +83,7 @@ namespace Phoenix.UI
             {
                 base.Text = "";
 
-                ForeColor = _prevForeColor;
+                ForeColor = _colorText;
                 Font = new Font(Font, FontStyle.Regular);
                 _isPlaceHolder = false;
             }
@@ -97,7 +106,6 @@ namespace Phoenix.UI
         private void RemovePlaceHolderHandler(object sender, EventArgs e)
         {
             RemovePlaceHolder();
-            //BackColor = SystemColors.Window;
         }
 
         private void KeyPressTextBoxHandler(object sender, KeyPressEventArgs e)

@@ -8,13 +8,16 @@ namespace Phoenix.Core
     public class Provider
     {
         private readonly Dictionary<string, dynamic> _provider = new Dictionary<string, dynamic>();
+        private readonly List<UpdatedCallback> providerUpdatedCallbacks = new List<UpdatedCallback>();
 
         /// <summary>
         /// A method that adds any data to the provider.
         /// </summary>
-        public void Add(string key, dynamic value)
+        public void Add(string key, object value)
         {
-            _provider.Add(key, value);
+            _provider.AddWithReplacement(key, value);
+
+            providerUpdatedCallbacks.ForEach(callback => callback(key));
         }
 
         /// <summary>
@@ -22,7 +25,7 @@ namespace Phoenix.Core
         /// </summary>
         public void Add(Control control)
         {
-            _provider.Add(control.Name, control);
+            Add(control.Name, control);
         }
 
         /// <summary>
@@ -32,7 +35,7 @@ namespace Phoenix.Core
         {
             foreach (Control control in controls)
             {
-                _provider.Add(control.Name, control);
+                Add(control.Name, control);
             }
         }
 
@@ -49,6 +52,19 @@ namespace Phoenix.Core
             {
                 throw new KeyNotFoundException($@"The provider does not have an object with such a key - {key}!");
             }
+        }
+
+        /// <summary>
+        /// The delegate for the method UpdatedFor.
+        /// </summary>
+        public delegate void UpdatedCallback(string key);
+
+        /// <summary>
+        /// Method subscribing to data updates in the provider.
+        /// </summary>
+        public void UpdatedFor(UpdatedCallback callback)
+        {
+            providerUpdatedCallbacks.Add(callback);
         }
     }
 }
