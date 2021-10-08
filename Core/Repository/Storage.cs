@@ -12,7 +12,7 @@ namespace Phoenix.Core
         public Storage(Dictionary<string, dynamic> store) : base(store) { }
 
         /// <summary>
-        /// A method to expand the entire Store.
+        /// A method to expand the entire Store. Returns <paramref name="Json" />.
         /// </summary>
         public string Scan()
         {
@@ -20,7 +20,7 @@ namespace Phoenix.Core
         }
 
         /// <summary>
-        /// A simplified method for expanding the entire Store.
+        /// A simplified method for expanding the entire Store. Returns <paramref name="Json" />.
         /// </summary>
         public string SimpleScan()
         {
