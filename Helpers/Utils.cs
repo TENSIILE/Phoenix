@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -30,6 +31,14 @@ namespace Phoenix.Helpers
         public static bool CompareOrEqual<T>(T obj, List<T> expressions)
         {
             return expressions.FindIndex(el => el.ToString() == obj.ToString()) != -1;
+        }
+
+        /// <summary>
+        /// The method of comparing elements and finding one true one.
+        /// </summary>
+        public static bool CompareOrEqual<T>(T obj, params T[] expressions)
+        {
+            return expressions.ToList().FindIndex(el => el.ToString() == obj.ToString()) != -1;
         }
 
         internal static void ProtectedConstraintOnNumber<T>(T value, bool outflank = false)
