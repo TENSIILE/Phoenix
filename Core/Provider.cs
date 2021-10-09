@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Phoenix.Extentions;
+using Phoenix.Json;
 
 namespace Phoenix.Core
 {
@@ -65,6 +66,14 @@ namespace Phoenix.Core
         public void UpdatedFor(UpdatedCallback callback)
         {
             providerUpdatedCallbacks.Add(callback);
+        }
+
+        /// <summary>
+        /// A method that converts provider data into a string.
+        /// </summary>
+        public override string ToString()
+        {
+            return _provider.ToJson();
         }
     }
 }
