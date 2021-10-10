@@ -11,7 +11,7 @@
             _form = form;
         }
 
-        public abstract void Init();
+        protected abstract void Init();
 
         public void Exec()
         {
