@@ -14,12 +14,6 @@ namespace Phoenix
         private static Provider _provider = new Provider();
 
         /// <summary>
-        /// The static accessor that returns static global store of the form.
-        /// </summary>
-        [Browsable(false)]
-        public static Store StaticGlobalStore => _globalStore;
-
-        /// <summary>
         /// The accessor that returns static global store of the form.
         /// </summary>
         [Browsable(false)]
@@ -32,17 +26,10 @@ namespace Phoenix
         public Store Store => _localStore;
 
         /// <summary>
-        /// Static accessor that returns static provider of the form.
-        /// </summary>
-        [Browsable(false)]
-        public static Provider Provider => _provider;
-
-        /// <summary>
         /// The accessor that returns static provider of the form.
         /// </summary>
         [Browsable(false)]
-        public Provider StaticProvider => _provider;
-
+        public static Provider Provider => _provider;
         
         internal event Action<dynamic> FormDidHide;
         internal event Action<dynamic> FormDidShow;
@@ -82,7 +69,7 @@ namespace Phoenix
         /// <summary>
         /// A method to disable full form closing.
         /// </summary>
-        public void EnableFormHiding()
+        internal void EnableFormHiding()
         {
             FormClosing += new FormClosingEventHandler(PhoenixClosing);
         }
@@ -90,7 +77,7 @@ namespace Phoenix
         /// <summary>
         /// A method to override disabling the closure of a form.
         /// </summary>
-        public void DisableFormHiding()
+        internal void DisableFormHiding()
         {
             FormClosing -= new FormClosingEventHandler(PhoenixClosing);
         }
