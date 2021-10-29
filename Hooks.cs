@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Phoenix.Core;
 using Phoenix.Helpers;
 
@@ -74,33 +72,6 @@ namespace Phoenix
         protected void UseEnsure<T>(Observer<T> observer, Action<T> callback, string storeType = StoreTypes.LOCAL)
         {
             new Ensurer(this).Insure(observer.Name, callback, storeType);
-        }
-
-        /// <summary>
-        /// Hook method creating a multiple window application.
-        /// </summary>
-        protected void UseCreateMWA(List<PhoenixForm> forms)
-        {
-            _UseCreateMWA(forms);
-        }
-
-        /// <summary>
-        /// Hook method creating a multiple window application.
-        /// </summary>
-        protected void UseCreateMWA(params PhoenixForm[] forms)
-        {
-            _UseCreateMWA(forms.ToList());
-        }
-
-        private void _UseCreateMWA(List<PhoenixForm> forms)
-        {
-            Init();
-            forms.ForEach((PhoenixForm form) =>
-            {
-                PContainer.Append(form.Name, form);
-                form.InitializeEvents();
-                form.EnableFormHiding();
-            });
         }
     }
 }

@@ -40,14 +40,21 @@ namespace Phoenix
         }
 
         /// <summary>
-        /// A method that initializes the form.
+        /// A method that initializes the forms.
         /// </summary>
-        protected void Init()
+        protected void Init(params PhoenixForm[] forms)
         {
             PContainer.Append(Name, this);
             InitializeEvents();
 
             _globalStore.StoreType = StoreTypes.GLOBAL;
+
+            forms.ToList().ForEach((PhoenixForm form) =>
+            {
+                PContainer.Append(form.Name, form);
+                form.InitializeEvents();
+                form.EnableFormHiding();
+            });
         }
 
         internal void InitializeEvents()
