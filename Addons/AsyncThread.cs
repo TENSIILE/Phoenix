@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Forms;
+using System.Threading;
 using Phoenix.Helpers;
 
 namespace Phoenix.Addons
 {
-    public class Async
+    public static class AsyncThread
     {
-        private readonly static Dictionary<string, Timer> _stackTimeouts = new Dictionary<string, Timer>();
-        private readonly static Dictionary<string, Timer> _stackIntervals = new Dictionary<string, Timer>();
+        private readonly static Dictionary<string, Thread> _stackTimeouts = new Dictionary<string, Thread>();
+        private readonly static Dictionary<string, Thread> _stackIntervals = new Dictionary<string, Thread>();
 
         /// <summary>
         /// The method calls the callback function after a specified number of seconds.
@@ -17,10 +17,7 @@ namespace Phoenix.Addons
         {
             string id = Utils.GetUniqueId();
 
-            Timer timer = Register(callback, ms, true);
-
-            _stackTimeouts.Add(id, timer);
-            timer.Start();
+            RegisterTimeout(id ,callback, ms);
 
             return id;
         }
@@ -32,10 +29,7 @@ namespace Phoenix.Addons
         {
             string id = Utils.GetUniqueId();
 
-            Timer timer = Register(callback, ms);
-
-            _stackIntervals.Add(id, timer);
-            timer.Start();
+            RegisterInterval(id, callback, ms);
 
             return id;
         }
@@ -56,12 +50,11 @@ namespace Phoenix.Addons
             return Clear(_stackIntervals, id);
         }
 
-        private static bool Clear(Dictionary<string, Timer> stack, string id)
+        private static bool Clear(Dictionary<string, Thread> stack, string id)
         {
             if (stack.ContainsKey(id))
             {
-                stack[id].Stop();
-                stack[id].Dispose();
+                stack[id].Abort();
                 stack.Remove(id);
 
                 return true;
@@ -70,19 +63,33 @@ namespace Phoenix.Addons
             return false;
         }
 
-        private static Timer Register(Action callback, int ms, bool isTimeout = false)
+        private static void RegisterTimeout(string id, Action callback, int ms)
         {
-            Timer timer = new Timer();
-            timer.Enabled = true;
-            timer.Interval = ms;
-
-            timer.Tick += (object _, EventArgs e) =>
+            Thread thread = new Thread(new ThreadStart(() =>
             {
+                Thread.Sleep(ms);
                 callback();
-                if (isTimeout) timer.Stop();
-            };
+            }));
 
-            return timer;
+            _stackTimeouts.Add(id, thread);
+
+            thread.Start();
+        }
+
+        private static void RegisterInterval(string id, Action callback, int ms)
+        {
+            Thread thread = new Thread(new ThreadStart(() =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(ms);
+                    callback();
+                }
+            }));
+
+            _stackIntervals.Add(id, thread);
+
+            thread.Start();
         }
     }
 }

@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Addons\Async.cs" />
     <Compile Include="Addons\Env.cs" />
     <Compile Include="Core\Hooks\Broadcast.cs" />
     <Compile Include="Core\Hooks\Ensurer.cs" />
@@ -61,7 +62,7 @@
     <Compile Include="Core\Repository\StoreTypes.cs" />
     <Compile Include="Db\PhoenixDB.cs" />
     <Compile Include="Db\PhoenixDML.cs" />
-    <Compile Include="Addons\Async.cs" />
+    <Compile Include="Addons\AsyncThread.cs" />
     <Compile Include="Extentions\ControlExtentions.cs" />
     <Compile Include="Extentions\DictionaryExtentions.cs" />
     <Compile Include="Extentions\ListExtentions.cs" />
