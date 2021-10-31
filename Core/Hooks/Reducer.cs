@@ -27,8 +27,11 @@
         public Reducer(ReducerActionCallback<T> reducer, T initialState, Store store) : base(initialState)
         {
             _reducer = reducer;
-            _state = new State<T>(initialState, store);
+
+            _state = new State<T>(initialState, store, false);
             _state.Name = Name;
+
+            store.HiddenDispatch(Name, initialState);
         }
 
         /// <summary>

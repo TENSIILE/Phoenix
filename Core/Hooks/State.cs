@@ -4,9 +4,12 @@
     {
         private readonly Store _store;
 
-        public State(T value, Store store) : base(value)
+        public State(T value, Store store, bool isRunHiddenDispatch = true) : base(value)
         {
             _store = store;
+
+            if (isRunHiddenDispatch)
+                _store.HiddenDispatch(Name, value);
         }
 
         /// <summary>
