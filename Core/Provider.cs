@@ -56,6 +56,18 @@ namespace Phoenix.Core
         }
 
         /// <summary>
+        /// A method that returns data from a provider using a unique key all only once, and then removes that data from it.
+        /// </summary>
+        public T TakeOnce<T>(string key)
+        {
+            T value = Take<T>(key);
+
+            _provider.Remove(key);
+
+            return value;
+        }
+
+        /// <summary>
         /// The delegate for the method UpdatedFor.
         /// </summary>
         public delegate void UpdatedCallback(string key);
