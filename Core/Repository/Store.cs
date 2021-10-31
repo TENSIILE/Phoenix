@@ -131,20 +131,29 @@ namespace Phoenix.Core
         /// </summary>
         public void QuietDispatch<T>(string type, T payload)
         {
+            WillChangeStore?.Invoke(GetStatePrev, GetState);
+
+            HiddenDispatch(type, payload);
+
+            DidChangeStore?.Invoke(GetStatePrev, GetState);
+
+            Render?.Invoke();
+        }
+
+        /// <summary>
+        /// A method for sending data secretly to the storage.
+        /// Using this method and repository listeners will not be notified of changes and lifecycle methods.
+        /// </summary>
+        public void HiddenDispatch<T>(string type, T payload)
+        {
             if (payload is Control)
             {
                 throw new ArgumentException("Payload cannot be a component!", "payload");
             }
 
-            WillChangeStore?.Invoke(GetStatePrev, GetState);
-
             _storeOld = new Storage(_store);
 
             _store[type] = payload;
-
-            DidChangeStore?.Invoke(GetStatePrev, GetState);
-
-            Render?.Invoke();
         }
 
         /// <summary>
