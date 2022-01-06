@@ -1,4 +1,5 @@
 ﻿using System;
+using Phoenix.Core;
 
 namespace Phoenix.Helpers
 {
@@ -11,7 +12,10 @@ namespace Phoenix.Helpers
         {
             if (TypeMatchers.IsBool(value))
             {
-                throw new ArgumentException("This method does not accept Boolean types! Can't convert Boolean to Boolean!");
+                throw new PhoenixException(
+                    "This method does not accept Boolean types! Can't convert Boolean to Boolean!",
+                    new ArgumentException()
+                );
             }
 
             return !TypeMatchers.IsNullOrEmpty(value);
@@ -43,7 +47,10 @@ namespace Phoenix.Helpers
                 case "false":
                     return _value == "true";
                 default:
-                    throw new ArgumentException("Unable to parse input string to Boolean!");
+                    throw new PhoenixException(
+                        "Unable to parse input string to Boolean!",
+                        new ArgumentException()
+                    );
             }
         }
 

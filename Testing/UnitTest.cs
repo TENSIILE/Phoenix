@@ -6,10 +6,7 @@
 
         protected PhoenixForm GetForm => _form;
 
-        public UnitTest(PhoenixForm form)
-        {
-            _form = form;
-        }
+        public UnitTest(PhoenixForm form) => _form = form;
 
         protected abstract void Init();
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Phoenix.Core;
 
 namespace Phoenix.Helpers
 {
@@ -45,7 +46,10 @@ namespace Phoenix.Helpers
         {
             if (!CompareOr(TypeMatchers.IsInt(value), TypeMatchers.IsDouble(value), TypeMatchers.IsFloat(value)) && !outflank)
             {
-                throw new ArgumentException("This method only accepts Int or Double or Float types!");
+                throw new PhoenixException(
+                    "This method only accepts Int or Double or Float types!",
+                    new ArgumentException()
+                );
             }
         }
 

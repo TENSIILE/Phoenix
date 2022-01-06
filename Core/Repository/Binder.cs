@@ -30,7 +30,10 @@ namespace Phoenix.Core
         {
             if (TypeMatchers.IsNullOrEmpty(keyStore))
             {
-                throw new ArgumentNullException("keyStore", "The key is empty or null!");
+                throw new PhoenixException(
+                    "The key is empty or null!", 
+                    new ArgumentNullException("keyStore")
+                );
             }
 
             if (_targets.ContainsKey(keyStore))
@@ -87,7 +90,10 @@ namespace Phoenix.Core
                         }
                         else
                         {
-                            throw new MissingFieldException("Unable to find the output property for this component!");
+                            throw new PhoenixException(
+                                "Unable to find the output property for this component!",
+                                new MissingFieldException()
+                            );
                         }
                     }
                 }
@@ -112,7 +118,10 @@ namespace Phoenix.Core
                         }
                         catch (NullReferenceException)
                         {
-                            throw new ArgumentException($@"The property ['{property}'] was not found for the component!", property);
+                            throw new PhoenixException(
+                                $@"The property ['{property}'] was not found for the component!",
+                                new ArgumentException()
+                            );
                         }
                     }
                 }

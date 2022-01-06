@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using Phoenix.Core;
 using Phoenix.Json;
 
 namespace Phoenix.Helpers
@@ -60,7 +61,10 @@ namespace Phoenix.Helpers
         {
             if (step < 0)
             {
-                throw new ArgumentOutOfRangeException("The step cannot be less than zero!");
+                throw new PhoenixException(
+                    "The step cannot be less than zero!",
+                    new ArgumentOutOfRangeException()
+                );
             }
 
             List<int> result = new List<int>();

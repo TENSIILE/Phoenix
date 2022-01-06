@@ -51,7 +51,10 @@ namespace Phoenix.Core
             }
             catch (KeyNotFoundException)
             {
-                throw new KeyNotFoundException($@"The provider does not have an object with such a key - {key}!");
+                throw new PhoenixException(
+                    $@"The provider does not have an object with such a key - {key}!", 
+                    new KeyNotFoundException()
+                );
             }
         }
 

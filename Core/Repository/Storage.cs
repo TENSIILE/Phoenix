@@ -70,11 +70,17 @@ namespace Phoenix.Core
             }
             catch (InvalidCastException)
             {
-                throw new InvalidCastException($@"Unable to convert type {((object)this.Get(key)).GetType()} to type {typeof(T).ToString()}!");
+                throw new PhoenixException(
+                    $@"Unable to convert type {((object)this.Get(key)).GetType()} to type {typeof(T).ToString()}!",
+                    new InvalidCastException()
+                );
             }
             catch (KeyNotFoundException)
             {
-                throw new KeyNotFoundException("A value with such a key does not exist in the storage!");
+                throw new PhoenixException(
+                    "A value with such a key does not exist in the storage!",
+                    new KeyNotFoundException()
+                );
             }
         }
 

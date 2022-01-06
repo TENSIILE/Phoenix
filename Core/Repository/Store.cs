@@ -148,7 +148,10 @@ namespace Phoenix.Core
         {
             if (payload is Control)
             {
-                throw new ArgumentException("Payload cannot be a component!", "payload");
+                throw new PhoenixException(
+                    "Payload cannot be a component!",
+                    new ArgumentException()
+                );
             }
 
             _storeOld = new Storage(_store);

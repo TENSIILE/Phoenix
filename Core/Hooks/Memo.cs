@@ -7,10 +7,7 @@ namespace Phoenix.Core
     {
         private Store _store;
 
-        public Memo(Store store)
-        {
-            _store = store;
-        }
+        public Memo(Store store) => _store = store;
 
         /// <summary>
         /// A method observing the changes in the transmitted states.

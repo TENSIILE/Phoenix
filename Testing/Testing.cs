@@ -7,7 +7,7 @@ namespace Phoenix.Testing
 {
     internal class TestableException : Exception
     {
-        public TestableException(string messageError) : base(messageError) { }
+        public TestableException(string errorMessage) : base(errorMessage) { }
     }
 
     public class Testing

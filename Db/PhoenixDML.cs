@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.OleDb;
+using Phoenix.Core;
 using Phoenix.Extentions;
 
 namespace Phoenix.Db
@@ -140,7 +141,10 @@ namespace Phoenix.Db
                     return this;
                 }
 
-                throw new ArgumentException("Sorting type must be either [desc] or [asc]!");
+                throw new PhoenixException(
+                    "Sorting type must be either [desc] or [asc]!", 
+                    new ArgumentException()
+                );
             }
 
             public OleDbDataReader Exec()
