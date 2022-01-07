@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Phoenix.Core;
 using Phoenix.Extentions;
 
@@ -9,6 +10,29 @@ namespace Phoenix
     public static class PContainer
     {
         private static PContainerFormsType _phoenixListForms = new PContainerFormsType();
+
+        private static PhoenixException GetException(string formName)
+        {
+            return new PhoenixException(
+                $@"The container does not have a form with such a key - [{formName}]!",
+                new KeyNotFoundException()
+            );
+        }
+
+        /// <summary>
+        /// The method returns the form by its name.
+        /// </summary>
+        public static T Get<T>(string formName) where T : PhoenixForm
+        {
+            try
+            {
+                return (T)Convert.ChangeType(_phoenixListForms.Get(formName), typeof(T));
+            }
+            catch (KeyNotFoundException)
+            {
+                throw GetException(formName);
+            }
+        }
 
         /// <summary>
         /// The method returns the form by its name.
@@ -21,12 +45,9 @@ namespace Phoenix
             }
             catch (KeyNotFoundException)
             {
-                throw new PhoenixException(
-                    $@"The container does not have a form with such a key - [{formName}]!",
-                    new KeyNotFoundException()
-                );
+                throw GetException(formName);
             }
-        }   
+        }
 
         /// <summary>
         /// Adds the form to the list.
