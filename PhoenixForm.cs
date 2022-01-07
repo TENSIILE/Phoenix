@@ -90,6 +90,14 @@ namespace Phoenix
             FormClosing -= new FormClosingEventHandler(PhoenixClosing);
         }
 
+        private PhoenixException GetComponentException(string name)
+        {
+            return new PhoenixException(
+                $@"The component with the name ['{name}'] does not exist on the form - [{Name}]!",
+                new KeyNotFoundException()
+            );
+        }
+
         /// <summary>
         /// A method for searching a component on a form by its name. 
         /// As Generic, the type is passed to the type that will need to be returned on success.
@@ -102,7 +110,22 @@ namespace Phoenix
             }
             catch (Exception)
             {
-                throw new KeyNotFoundException($@"The component with the name ['{name}'] does not exist on the form - [{Name}]!");
+                throw GetComponentException(name);
+            }
+        }
+
+        /// <summary>
+        /// A method for searching a component on a form by its name. 
+        /// </summary>
+        public Control GetComponent(string name)
+        {
+            try
+            {
+                return Controls.Find(name, true).ToArray()[0];
+            }
+            catch (Exception)
+            {
+                throw GetComponentException(name);
             }
         }
 
@@ -115,9 +138,7 @@ namespace Phoenix
             List<T> result = new List<T>();
 
             foreach (Control control in Controls.OfType<T>())
-            {
                 result.Add((T)control);
-            }
 
             return result.ToArray();
         }
