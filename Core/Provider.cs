@@ -22,22 +22,12 @@ namespace Phoenix.Core
         }
 
         /// <summary>
-        /// The method adds a component to the provider.
-        /// </summary>
-        public void Add(Control control)
-        {
-            Add(control.Name, control);
-        }
-
-        /// <summary>
         /// The method adds an unlimited number of components to the provider.
         /// </summary>
         public void Add(params Control[] controls)
         {
             foreach (Control control in controls)
-            {
                 Add(control.Name, control);
-            }
         }
 
         /// <summary>
@@ -52,7 +42,7 @@ namespace Phoenix.Core
             catch (KeyNotFoundException)
             {
                 throw new PhoenixException(
-                    $@"The provider does not have an object with such a key - {key}!", 
+                    $@"The provider does not have an object with such a key - [{key}]!", 
                     new KeyNotFoundException()
                 );
             }
