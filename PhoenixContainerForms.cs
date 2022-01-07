@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Phoenix.Core;
 using Phoenix.Extentions;
+using Phoenix.Helpers;
 
 namespace Phoenix
 {
@@ -26,7 +26,7 @@ namespace Phoenix
         {
             try
             {
-                return (T)Convert.ChangeType(_phoenixListForms.Get(formName), typeof(T));
+                return Converting.ToType<T>(_phoenixListForms.Get(formName));
             }
             catch (KeyNotFoundException)
             {

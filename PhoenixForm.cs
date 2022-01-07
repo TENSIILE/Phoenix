@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.ComponentModel;
 using Phoenix.Core;
+using Phoenix.Helpers;
 
 namespace Phoenix
 {
@@ -97,11 +98,11 @@ namespace Phoenix
         {
             try
             {
-                return (T)Convert.ChangeType(Controls.Find(name, true).ToArray()[0], typeof(T));
+                return Converting.ToType<T>(Controls.Find(name, true).ToArray()[0]);
             }
             catch (Exception)
             {
-                throw new KeyNotFoundException($@"The component with the name ['{name}'] does not exist on the form - {Name}!");
+                throw new KeyNotFoundException($@"The component with the name ['{name}'] does not exist on the form - [{Name}]!");
             }
         }
 

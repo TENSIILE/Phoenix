@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Phoenix.Json;
 using Phoenix.Extentions;
+using Phoenix.Helpers;
 
 namespace Phoenix.Core
 {
@@ -66,7 +67,7 @@ namespace Phoenix.Core
         {
             try
             {
-                return (T)Convert.ChangeType(this.Get(key), typeof(T));
+                return Converting.ToType<T>(this.Get(key));
             }
             catch (InvalidCastException)
             {

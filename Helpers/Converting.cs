@@ -105,5 +105,13 @@ namespace Phoenix.Helpers
         }
 
         public delegate object DelegateErrorToBoolean();
+
+        /// <summary>
+        /// Returns an object of the specified type whose value is equivalent to the specified type.
+        /// </summary>
+        public static T ToType<T>(dynamic argument)
+        {
+            return (T)Convert.ChangeType(argument, typeof(T));
+        }
     }
 }

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using Phoenix.Extentions;
 using Phoenix.Json;
+using Phoenix.Helpers;
 
 namespace Phoenix.Core
 {
@@ -37,7 +37,7 @@ namespace Phoenix.Core
         {
             try
             {
-                return (T)Convert.ChangeType(_provider.Get(key), typeof(T));
+                return Converting.ToType<T>(_provider.Get(key));
             }
             catch (KeyNotFoundException)
             {
