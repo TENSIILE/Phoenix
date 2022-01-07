@@ -23,6 +23,19 @@ namespace Phoenix
         }
 
         /// <summary>
+        /// State tracking hook method.
+        /// </summary>
+        protected string UseEffect(string formName, Action callback, string[] deps, bool isRunStartAway = false, string storeType = StoreTypes.LOCAL)
+        {
+            if (storeType == StoreTypes.LOCAL)
+            {
+                return PContainer.Get(formName).Store.Effect(callback, deps, isRunStartAway);
+            }
+
+            throw new PhoenixException("You cannot refer to the global store while referring to the store for a specific form!");
+        }
+
+        /// <summary>
         /// A method for canceling the state tracking hook.
         /// </summary>
         protected void UseCancelEffect(string id, string storeType = StoreTypes.LOCAL)
