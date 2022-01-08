@@ -43,18 +43,19 @@ namespace Phoenix
         /// <summary>
         /// A method that initializes the forms.
         /// </summary>
-        protected void Init(params PhoenixForm[] forms)
+        protected void Init(params Type[] formTypes)
         {
             PContainer.Append(Name, this);
             InitializeEvents();
 
             _globalStore.StoreType = StoreTypes.GLOBAL;
 
-            forms.ToList().ForEach((PhoenixForm form) =>
+            formTypes.ToList().ForEach((Type formType) =>
             {
-                PContainer.Append(form.Name, form);
-                form.InitializeEvents();
-                form.EnableFormHiding();
+                FormActivator.ProtectsAndValidatesPassedTypes(formType);
+
+                var formConstructor = FormActivator.CreateFormConstructor(formType);
+                FormActivator.AddFormConstructor(formType.Name, formConstructor);
             });
         }
 

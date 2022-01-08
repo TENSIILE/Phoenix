@@ -69,6 +69,7 @@
     <Compile Include="Extentions\ListExtentions.cs" />
     <Compile Include="Extentions\ObjectExtentions.cs" />
     <Compile Include="Extentions\StringExtentions.cs" />
+    <Compile Include="FormActivator.cs" />
     <Compile Include="Helpers\Converting.cs" />
     <Compile Include="Debugger.cs" />
     <Compile Include="Addons\Dispatcher.cs" />

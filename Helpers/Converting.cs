@@ -12,10 +12,7 @@ namespace Phoenix.Helpers
         {
             if (TypeMatchers.IsBool(value))
             {
-                throw new PhoenixException(
-                    "This method does not accept Boolean types! Can't convert Boolean to Boolean!",
-                    new ArgumentException()
-                );
+                return Convert.ToBoolean(value);
             }
 
             return !TypeMatchers.IsNullOrEmpty(value);

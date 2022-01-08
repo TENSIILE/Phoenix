@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Phoenix.Core;
-using Phoenix.Extentions;
 using Phoenix.Helpers;
+using Phoenix.Extentions;
 
 namespace Phoenix
 {
@@ -10,6 +10,11 @@ namespace Phoenix
     public static class PContainer
     {
         private static PContainerFormsType _phoenixListForms = new PContainerFormsType();
+
+        internal static bool CheckExistsForm(string formName)
+        {
+            return _phoenixListForms.Has(formName).ToBool();
+        }
 
         private static PhoenixException GetException(string formName)
         {
@@ -26,6 +31,7 @@ namespace Phoenix
         {
             try
             {
+                FormActivator.TryActivateForm<T>(formName);
                 return Converting.ToType<T>(_phoenixListForms.Get(formName));
             }
             catch (KeyNotFoundException)
@@ -41,6 +47,7 @@ namespace Phoenix
         {
             try
             {
+                FormActivator.TryActivateForm<PhoenixForm>(formName);
                 return _phoenixListForms.Get(formName);
             }
             catch (KeyNotFoundException)
