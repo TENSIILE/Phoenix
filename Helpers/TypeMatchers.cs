@@ -1,4 +1,5 @@
 ﻿using System;
+using Phoenix.Core;
 
 namespace Phoenix.Helpers
 {
@@ -29,7 +30,10 @@ namespace Phoenix.Helpers
                     case _FLOAT:
                         return value.GetType() == typeof(float);
                     default:
-                        throw new ArgumentException($@"The type [{type}] does not exist!");
+                        throw new PhoenixException(
+                            $@"The type [{type}] does not exist!", 
+                            new ArgumentException()
+                        );
                 }
             }
             catch (FormatException)
