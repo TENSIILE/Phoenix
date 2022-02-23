@@ -5,7 +5,7 @@ using Phoenix.Helpers;
 
 namespace Phoenix.Addons
 {
-    public class Async
+    public static class Async
     {
         private readonly static Dictionary<string, Timer> _stackTimeouts = new Dictionary<string, Timer>();
         private readonly static Dictionary<string, Timer> _stackIntervals = new Dictionary<string, Timer>();
@@ -15,7 +15,7 @@ namespace Phoenix.Addons
         /// </summary>
         public static string SetTimeout(Action callback, int ms)
         {
-            string id = Utils.GetUniqueId();
+            string id = Utils.UuidV1();
 
             Timer timer = Register(callback, ms, true);
 
@@ -30,7 +30,7 @@ namespace Phoenix.Addons
         /// </summary>
         public static string SetInterval(Action callback, int ms)
         {
-            string id = Utils.GetUniqueId();
+            string id = Utils.UuidV1();
 
             Timer timer = Register(callback, ms);
 

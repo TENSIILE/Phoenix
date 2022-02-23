@@ -44,10 +44,17 @@ namespace Phoenix.Helpers
 
         internal static void ProtectedConstraintOnNumber<T>(T value, bool outflank = false)
         {
-            if (!CompareOr(TypeMatchers.IsInt(value), TypeMatchers.IsDouble(value), TypeMatchers.IsFloat(value)) && !outflank)
+            if (
+                !CompareOr(
+                    TypeMatchers.IsInt(value),
+                    TypeMatchers.IsDouble(value),
+                    TypeMatchers.IsString(value),
+                    TypeMatchers.IsFloat(value)
+                ) && !outflank
+            )
             {
                 throw new PhoenixException(
-                    "This method only accepts Int or Double or Float types!",
+                    "This method only accepts Int or Double or Float or String types!",
                     new ArgumentException()
                 );
             }
@@ -86,9 +93,17 @@ namespace Phoenix.Helpers
         }
 
         /// <summary>
-        /// A method that generates a unique id.
+        /// Method generating unique id by type.
         /// </summary>
-        public static string GetUniqueId(string substring = null)
+        public static Guid GuidForType<T>()
+        {
+            return System.Runtime.InteropServices.Marshal.GenerateGuidForType(typeof(T));
+        }
+
+        /// <summary>
+        /// Method that generates a unique ID from a timestamp.
+        /// </summary>
+        public static string UuidV1(string substring = null)
         {
             DateTime date = new DateTime(1970, 1, 1);
 

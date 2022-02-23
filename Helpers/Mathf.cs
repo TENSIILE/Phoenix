@@ -84,5 +84,16 @@ namespace Phoenix.Helpers
         {
             return new DataTable().Compute(expression, null);
         }
+
+        /// <summary>
+        /// A method that simulates a for loop.
+        /// </summary>
+        public static void For(int count, Action<int> action)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                action(i);
+            }
+        }
     }
 }

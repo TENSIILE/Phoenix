@@ -58,7 +58,7 @@ namespace Phoenix.Core
         /// </summary>
         public string Effect(Action callback, string[] deps, bool isRun = false)
         {
-            string id = Utils.GetUniqueId(string.Join("", deps));
+            string id = Utils.UuidV1(string.Join("", deps));
 
             Tuple<string[], Action, string> effect = new Tuple<string[], Action, string>(deps, callback, id);
 

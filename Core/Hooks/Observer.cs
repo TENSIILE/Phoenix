@@ -56,7 +56,7 @@ namespace Phoenix.Core
 
             string substring = ObserverCounter.Counter.ToString() + randomValue + _value;
 
-            return Utils.GetUniqueId(substring);
+            return Utils.UuidV1(substring);
         }
     }
 }

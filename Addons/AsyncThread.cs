@@ -15,7 +15,7 @@ namespace Phoenix.Addons
         /// </summary>
         public static string SetTimeout(Action callback, int ms)
         {
-            string id = Utils.GetUniqueId();
+            string id = Utils.UuidV1();
 
             RegisterTimeout(id ,callback, ms);
 
@@ -27,7 +27,7 @@ namespace Phoenix.Addons
         /// </summary>
         public static string SetInterval(Action callback, int ms)
         {
-            string id = Utils.GetUniqueId();
+            string id = Utils.UuidV1();
 
             RegisterInterval(id, callback, ms);
 
