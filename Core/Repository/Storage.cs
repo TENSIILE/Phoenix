@@ -31,7 +31,7 @@ namespace Phoenix.Core
         /// <summary>
         /// The method returns a value from Store corresponding to the passed component.
         /// </summary>
-        public T GetByComponent<T>(Control component)
+        public string GetByComponent(Control component)
         {
             return this[component.Name.ToString()];
         }
