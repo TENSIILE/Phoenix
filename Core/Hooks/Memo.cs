@@ -24,7 +24,7 @@ namespace Phoenix.Core
         {
             foreach (string dep in deps)
             {
-                if (_store.GetStatePrev.Has(dep) != _store.GetState.Has(dep))
+                if (_store.GetPrevState.Has(dep) != _store.GetState.Has(dep))
                 {
                     callback();
                 }

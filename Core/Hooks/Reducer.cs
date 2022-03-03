@@ -28,8 +28,7 @@
         {
             _reducer = reducer;
 
-            _state = new State<T>(initialState, store, isRunHiddenDispatch);
-            _state.Name = Name;
+            _state = new State<T>(initialState, store, isRunHiddenDispatch, Name);
 
             store.HiddenDispatch(Name, initialState);
         }

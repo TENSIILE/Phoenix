@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Phoenix.Core;
 
 namespace Phoenix.Extentions
 {
@@ -21,6 +22,14 @@ namespace Phoenix.Extentions
             }
 
             return list.ToArray();
+        }
+
+        /// <summary>
+        /// Method to add guards for text field components.
+        /// </summary>
+        public static void AddGuards(this TextBox textBox, params GuardDelegate[] guardDelegates) 
+        {
+            guardDelegates.ToList().ForEach(guardDelegate => guardDelegate(textBox));
         }
     }
 }

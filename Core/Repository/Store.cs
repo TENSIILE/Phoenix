@@ -29,7 +29,7 @@ namespace Phoenix.Core
         /// <summary>
         /// An accessor that returns the previous store.
         /// </summary>
-        public Storage GetStatePrev => _storeOld;
+        public Storage GetPrevState => _storeOld;
 
         internal event Action<Storage, Storage> DidChangeStore;
         internal event Action<Storage, Storage> WillChangeStore;
@@ -85,7 +85,7 @@ namespace Phoenix.Core
             {
                 foreach (string dep in effect.Item1)
                 {
-                    if (!Mathf.IsStrongEqual(GetState.Has(dep), GetStatePrev.Has(dep)))
+                    if (!Mathf.IsStrongEqual(GetState.Has(dep), GetPrevState.Has(dep)))
                     {
                         effect.Item2();
                     }
@@ -131,11 +131,11 @@ namespace Phoenix.Core
         /// </summary>
         public void QuietDispatch<T>(string type, T payload)
         {
-            WillChangeStore?.Invoke(GetStatePrev, GetState);
+            WillChangeStore?.Invoke(GetPrevState, GetState);
 
             HiddenDispatch(type, payload);
 
-            DidChangeStore?.Invoke(GetStatePrev, GetState);
+            DidChangeStore?.Invoke(GetPrevState, GetState);
 
             Render?.Invoke();
         }

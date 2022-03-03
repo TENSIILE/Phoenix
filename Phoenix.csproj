@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Addons\Async.cs" />
     <Compile Include="Addons\Env.cs" />
+    <Compile Include="Core\InputGuard.cs" />
     <Compile Include="Core\Hooks\Broadcast.cs" />
     <Compile Include="Core\Hooks\Ensurer.cs" />
     <Compile Include="Core\Hooks\Observer.cs" />
@@ -59,7 +60,7 @@
     <Compile Include="Core\ListRender.cs" />
     <Compile Include="Core\Provider.cs" />
     <Compile Include="Core\Hooks\Reducer.cs" />
-    <Compile Include="Core\Hooks\Router.cs" />
+    <Compile Include="Core\Router.cs" />
     <Compile Include="Core\Repository\StoreTypes.cs" />
     <Compile Include="Db\PhoenixDB.cs" />
     <Compile Include="Db\PhoenixDML.cs" />

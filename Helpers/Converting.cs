@@ -88,7 +88,7 @@ namespace Phoenix.Helpers
         /// <summary>
         /// A method that converts an error to false when it is triggered.
         /// </summary>
-        public static bool ErrorToBoolean<T>(DelegateErrorToBoolean callback) where T : Exception
+        public static bool ErrorToBoolean<T>(ErrorToBooleanDelegate callback) where T : Exception
         {
             try
             {
@@ -101,7 +101,7 @@ namespace Phoenix.Helpers
             }
         }
 
-        public delegate object DelegateErrorToBoolean();
+        public delegate void ErrorToBooleanDelegate();
 
         /// <summary>
         /// Returns an object of the specified type whose value is equivalent to the specified type.
