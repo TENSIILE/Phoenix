@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace Phoenix.UI
@@ -12,6 +13,7 @@ namespace Phoenix.UI
         private Color _backColorHeader = Color.FromArgb(22, 22, 22);
         private Color _foreColorTextCaption = Color.White;
         private string _textCaption = "Новое окно";
+        private bool _isCaptionPositionCenter = true;
 
         private double _opacity = 1;
         private Point _mouseLocation;
@@ -24,9 +26,9 @@ namespace Phoenix.UI
 
         private Image _logo;
 
-        private Image _iconClose = Properties.Resources.icon_close;
-        private Image _iconMax = Properties.Resources.icon_maximize;
-        private Image _iconMin = Properties.Resources.icon_minimize;
+        private Image _closeIcon = Properties.Resources.icon_close;
+        private Image _maxIcon = Properties.Resources.icon_maximize;
+        private Image _minIcon = Properties.Resources.icon_minimize;
 
         /// <summary>
         /// The color that appears when you hover over the form control buttons.
@@ -58,7 +60,30 @@ namespace Phoenix.UI
         public Color ForeColorTextCaption
         {
             get => _foreColorTextCaption;
-            set => _foreColorTextCaption = value;
+            set
+            {
+                _foreColorTextCaption = value;
+                labelCaption.ForeColor = _foreColorTextCaption;
+                Invalidate(); 
+            }
+        }
+
+        [Description("The position of the title inside the header.")]
+        [DefaultValue(true)]
+        public bool IsCaptionPositionCenter
+        {
+            get => _isCaptionPositionCenter;
+            set
+            {
+                _isCaptionPositionCenter = value;
+                labelCaption.TextAlign = _isCaptionPositionCenter ? ContentAlignment.MiddleCenter : ContentAlignment.MiddleLeft;
+
+                Padding padding = new Padding();
+                padding.Left = _isCaptionPositionCenter ? 0 : 35;
+
+                labelCaption.Padding = padding;
+                Invalidate();
+            }
         }
 
         /// <summary>
@@ -203,13 +228,13 @@ namespace Phoenix.UI
         /// Icon of the button to close the form.
         /// </summary>
         [Description("Icon of the button to close the form.")]
-        public Image IconCloseForm
+        public Image CloseFormIcon
         {
-            get => _iconClose;
+            get => _closeIcon;
             set
             {
-                _iconClose = value;
-                pictureClose.Image = _iconClose;
+                _closeIcon = value;
+                pictureClose.Image = _closeIcon;
                 Invalidate();
             }
         }
@@ -218,13 +243,13 @@ namespace Phoenix.UI
         /// Icon of the button to maximize the form.
         /// </summary>
         [Description("Icon of the button to maximize the form.")]
-        public Image IconMaxForm
+        public Image MaxFormIcon
         {
-            get => _iconMax;
+            get => _maxIcon;
             set
             {
-                _iconMax = value;
-                pictureMaximize.Image = _iconMax;
+                _maxIcon = value;
+                pictureMaximize.Image = _maxIcon;
                 Invalidate();
             }
         }
@@ -233,13 +258,13 @@ namespace Phoenix.UI
         /// Icon of the button to hide the form.
         /// </summary>
         [Description("Icon of the button to hide the form.")]
-        public Image IconMinForm
+        public Image MinFormIcon
         {
-            get => _iconMin;
+            get => _minIcon;
             set
             {
-                _iconMin = value;
-                pictureMinimize.Image = _iconMin;
+                _minIcon = value;
+                pictureMinimize.Image = _minIcon;
                 Invalidate();
             }
         }
