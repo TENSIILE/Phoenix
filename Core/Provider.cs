@@ -11,6 +11,13 @@ namespace Phoenix.Core
         private readonly Dictionary<string, dynamic> _provider = new Dictionary<string, dynamic>();
         private readonly List<UpdatedCallback> providerUpdatedCallbacks = new List<UpdatedCallback>();
 
+        private static Store _globalStore = new Store();
+
+        ///// <summary>
+        ///// The accessor that returns static global store.
+        ///// </summary>
+        public static Store GlobalStore { get; } = _globalStore;
+
         /// <summary>
         /// A method that adds any data to the provider.
         /// </summary>

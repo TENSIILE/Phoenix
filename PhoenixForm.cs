@@ -11,14 +11,8 @@ namespace Phoenix
     public partial class PhoenixForm : Form
     {
         private Store _localStore = new Store();
-        private static Store _globalStore = new Store();
+    
         private static Provider _provider = new Provider();
-
-        /// <summary>
-        /// The accessor that returns static global store of the form.
-        /// </summary>
-        [Browsable(false)]
-        public Store GlobalStore => _globalStore;
 
         /// <summary>
         /// The accessor that returns store of the form.
@@ -37,7 +31,7 @@ namespace Phoenix
 
         internal Store GetStoreByType(string storeType = StoreTypes.LOCAL)
         {
-            return storeType == StoreTypes.LOCAL ? _localStore : _globalStore;
+            return storeType == StoreTypes.LOCAL ? _localStore : Provider.GlobalStore;
         }
 
         /// <summary>
@@ -48,7 +42,7 @@ namespace Phoenix
             PContainer.Append(Name, this);
             InitializeEvents();
 
-            _globalStore.StoreType = StoreTypes.GLOBAL;
+            Provider.GlobalStore.StoreType = StoreTypes.GLOBAL;
 
             formTypes.ToList().ForEach((Type formType) =>
             {
@@ -72,7 +66,7 @@ namespace Phoenix
             _localStore.Render += Render;
 
             _localStore.CombinedStores += StoreCombined;
-            _globalStore.CombinedStores += StoreCombined;
+            Provider.GlobalStore.CombinedStores += StoreCombined;
         }
 
         /// <summary>

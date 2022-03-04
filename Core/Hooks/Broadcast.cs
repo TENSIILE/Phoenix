@@ -2,13 +2,11 @@
 {
     public class Broadcast
     {
-        private PhoenixForm _form;
         private Store _store;
 
-        public Broadcast(PhoenixForm form, Store store)
+        public Broadcast(Store store)
         {
             _store = store;
-            _form = form;
 
             _store.Subscribe(Merge);
         }
@@ -18,7 +16,7 @@
         /// </summary>
         public void Restart(bool isRun = false)
         {
-            _store.Unsubscribe(Merge);
+            Stop();
             _store.Subscribe(Merge);
 
             if (isRun) Merge();
@@ -34,7 +32,7 @@
 
         private void Merge()
         {
-            _form.GlobalStore.MergeStores(_store);
+            Provider.GlobalStore.MergeStores(_store);
         }
     }
 }

@@ -66,7 +66,7 @@ namespace Phoenix
         /// </summary>
         protected Broadcast UseBroadcast(Store store = null)
         {
-            return new Broadcast(this, TypeMatchers.IsNull(store) ? Store : store);
+            return new Broadcast(TypeMatchers.IsNull(store) ? Store : store);
         }
 
         /// <summary>
