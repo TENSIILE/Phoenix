@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using Phoenix.Core;
@@ -30,6 +31,36 @@ namespace Phoenix.Extentions
         public static void AddGuards(this TextBox textBox, params GuardDelegate[] guardDelegates) 
         {
             guardDelegates.ToList().ForEach(guardDelegate => guardDelegate(textBox));
+        }
+
+        /// <summary>
+        /// A method that sets a value to a component.
+        /// </summary>
+        public static void SetState(this Control control, string key)
+        {
+            PhoenixForm form = control.FindForm() as PhoenixForm;
+
+            Store store = form.Store;
+
+            Memo memo = new Memo(store);
+
+            Ensurer ensurer = new Ensurer(form);
+
+            Action action = () =>
+            {
+                ensurer.Insure<string>(key, (value) =>
+                {
+                    control.Text = value;
+                }, StoreTypes.LOCAL);
+            };
+
+            if (store.GetState.ContainsKey(key) && control.Text.ToString() != Convert.ToString(store.GetState[key]))
+            {
+                action();
+                return;
+            }
+
+            memo.Memoize(action, Memo.Watch(key));
         }
     }
 }
