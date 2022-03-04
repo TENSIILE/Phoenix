@@ -62,6 +62,7 @@
     <Compile Include="Core\Hooks\Reducer.cs" />
     <Compile Include="Core\Router.cs" />
     <Compile Include="Core\Repository\StoreTypes.cs" />
+    <Compile Include="Db\DataGridViewExtentions.cs" />
     <Compile Include="Db\PhoenixDB.cs" />
     <Compile Include="Db\PhoenixDML.cs" />
     <Compile Include="Addons\AsyncThread.cs" />
