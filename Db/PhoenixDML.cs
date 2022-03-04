@@ -97,8 +97,13 @@ namespace Phoenix.Db
             private OleDbDataReader Execute(string query)
             {
                 OleDbCommand command = new OleDbCommand(query, PhoenixDB.GetConnection);
-                OleDbDataReader reader = command.ExecuteReader();
-                return reader;
+                return command.ExecuteReader();
+            }
+
+            private dynamic ExecuteScalar(string query)
+            {
+                OleDbCommand command = new OleDbCommand(query, PhoenixDB.GetConnection);
+                return command.ExecuteScalar();
             }
 
             public OleDbDataReader FindAll()
@@ -150,6 +155,11 @@ namespace Phoenix.Db
             public OleDbDataReader Exec()
             {
                 return Execute(_query);
+            }
+
+            public dynamic Scalar()
+            {
+                return ExecuteScalar(_query);
             }
         }
     }
