@@ -36,7 +36,20 @@ namespace Phoenix.Extentions
         /// <summary>
         /// A method that sets a value to a component.
         /// </summary>
-        public static void SetState(this Control control, string key)
+        public static void SetState(this Control control, string name)
+        {
+            _SetState(control, "Text", name);
+        }
+
+        /// <summary>
+        /// Method that sets the value for the component to the desired property.
+        /// </summary>
+        public static void SetState(this Control control, string property, string name)
+        {
+            _SetState(control, property, name);
+        }
+
+        private static void _SetState(Control control, string property, string name)
         {
             PhoenixForm form = control.FindForm() as PhoenixForm;
 
@@ -48,19 +61,20 @@ namespace Phoenix.Extentions
 
             Action action = () =>
             {
-                ensurer.Insure<string>(key, (value) =>
+                ensurer.Insure<string>(name, (value) =>
                 {
+                    control.GetType().GetProperty(property).SetValue(control, value);
                     control.Text = value;
                 }, StoreTypes.LOCAL);
             };
 
-            if (store.GetState.ContainsKey(key) && control.Text.ToString() != Convert.ToString(store.GetState[key]))
+            if (store.GetState.ContainsKey(name) && control.Text.ToString() != Convert.ToString(store.GetState[name]))
             {
                 action();
                 return;
             }
 
-            memo.Memoize(action, Memo.Watch(key));
+            memo.Memoize(action, Memo.Watch(name));
         }
     }
 }
