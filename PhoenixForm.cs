@@ -14,6 +14,8 @@ namespace Phoenix
     
         private static Provider _provider = new Provider();
 
+        public delegate void TryCloseForm(Action onClose);
+
         /// <summary>
         /// The accessor that returns store of the form.
         /// </summary>
@@ -25,7 +27,13 @@ namespace Phoenix
         /// </summary>
         [Browsable(false)]
         public static Provider Provider => _provider;
-        
+
+        /// <summary>
+        /// An accessor called when the form is closed, allowing you to cancel or confirm the closing of the form.
+        /// </summary>
+        [Browsable(false)]
+        public TryCloseForm OnTryCloseForm { get; protected set; } = null;
+
         internal event Action<dynamic> FormDidHide;
         internal event Action<dynamic> FormDidShow;
 
@@ -168,10 +176,22 @@ namespace Phoenix
 
         private void PhoenixClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason != CloseReason.ApplicationExitCall)
+            Action hideAction = () =>
             {
                 e.Cancel = true;
                 Hide();
+            };
+
+            if (e.CloseReason != CloseReason.ApplicationExitCall)
+            {
+                if (!TypeMatchers.IsNull(OnTryCloseForm))
+                {
+                    OnTryCloseForm(hideAction);
+                    e.Cancel = true;
+                    return;
+                }
+
+                hideAction();
             }
         }
 
