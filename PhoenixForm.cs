@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using Phoenix.Core;
 using Phoenix.Helpers;
+using Phoenix._System;
 
 namespace Phoenix
 {
@@ -13,6 +14,8 @@ namespace Phoenix
         private Store _localStore = new Store();
     
         private static Provider _provider = new Provider();
+
+        private PrivatePhoenixFormDictionary _subComponents = new PrivatePhoenixFormDictionary();
 
         public delegate void TryCloseForm(Action onClose);
 
@@ -32,7 +35,13 @@ namespace Phoenix
         /// An accessor called when the form is closed, allowing you to cancel or confirm the closing of the form.
         /// </summary>
         [Browsable(false)]
-        public TryCloseForm OnTryCloseForm { get; protected set; } = null;
+        protected TryCloseForm OnTryCloseForm { get; set; } = null;
+
+        /// <summary>
+        /// Returns a list of connected sub-components to the form.
+        /// </summary>
+        [Browsable(false)]
+        protected PrivatePhoenixFormDictionary SubComponents => _subComponents;
 
         internal event Action<dynamic> FormDidHide;
         internal event Action<dynamic> FormDidShow;
@@ -59,6 +68,21 @@ namespace Phoenix
 
                 var formConstructor = FormActivator.CreateFormConstructor(formType);
                 FormActivator.AddFormConstructor(formType.Name, formConstructor);
+            });
+        }
+
+        /// <summary>
+        /// Method for connecting a sub-component to a form.
+        /// </summary>
+        protected void ConnectSubComponents(params PhoenixForm[] components)
+        {
+            Mathf.For(components.Length, (i) => 
+            {
+                PhoenixForm component = components[i];
+
+                _subComponents.Add(component.Name, component);
+                component.InitializeEvents();
+                component.EnableFormHiding();
             });
         }
 
@@ -228,6 +252,5 @@ namespace Phoenix
         /// A lifecycle method that is called after a data update to display up-to-date information.
         /// </summary>
         protected virtual void Render() {}
-        
     }
 }

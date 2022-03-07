@@ -75,6 +75,8 @@
     <Compile Include="Helpers\Converting.cs" />
     <Compile Include="Debugger.cs" />
     <Compile Include="Addons\Dispatcher.cs" />
+    <Compile Include="_System\PrivateDictionary.cs" />
+    <Compile Include="_System\PrivateList.cs" />
     <Compile Include="Hooks.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +121,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Helpers\Utils.cs" />
+    <Compile Include="_System\PrivatePhoenixFormDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="PhoenixForm.resx">

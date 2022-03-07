@@ -27,9 +27,12 @@ namespace Phoenix.Core
         {
             get
             {
-                return _isRunHiddenDispatch   ?
+                return Converting.ToType<T>
+                (
+                    _isRunHiddenDispatch      ?
                     _store.GetState.Get(Name) :
-                    base.Value;
+                    base.Value
+                );
             }
             set
             {
