@@ -51,6 +51,7 @@ namespace Phoenix
             InitializeEvents();
 
             Provider.GlobalStore.StoreType = StoreTypes.GLOBAL;
+            Provider.GlobalStore.CombinedStores += StoreCombined;
 
             formTypes.ToList().ForEach((Type formType) =>
             {
@@ -67,14 +68,13 @@ namespace Phoenix
             FormDidShow += FormDidMount;
             FormDidHide += FormWillUnmount;
 
-            FormDidAddedListeners();
+            FormAddedListeners();
 
             _localStore.DidChangeStore += StoreDidUpdate;
             _localStore.WillChangeStore += StoreWillUpdate;
             _localStore.Render += Render;
 
             _localStore.CombinedStores += StoreCombined;
-            Provider.GlobalStore.CombinedStores += StoreCombined;
         }
 
         /// <summary>
@@ -211,15 +211,15 @@ namespace Phoenix
         /// The lifecycle method is executed once when the form is first launched, 
         /// starting the listeners initialized in this method.
         /// </summary>
-        protected virtual void FormDidAddedListeners() { }
+        protected virtual void FormAddedListeners() { }
         /// <summary>
         /// The store lifecycle method, which is called after it has been updated.
         /// </summary>
-        protected virtual void StoreDidUpdate(Storage storePrev, Storage storeNow) { }
+        protected virtual void StoreDidUpdate(Storage prevStore, Storage currentStore) { }
         /// <summary>
         /// The store lifecycle method, which is called before updating it.
         /// </summary>
-        protected virtual void StoreWillUpdate(Storage storePrev, Storage storeNow) { }
+        protected virtual void StoreWillUpdate(Storage prevStore, Storage currentStore) { }
         /// <summary>
         /// The lifecycle method is triggered when the local or global store of the form has been combined.
         /// </summary>

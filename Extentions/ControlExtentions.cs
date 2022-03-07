@@ -34,22 +34,22 @@ namespace Phoenix.Extentions
         }
 
         /// <summary>
-        /// A method that sets a value to a component.
+        /// Method that sets the value for the component to the desired property.
         /// </summary>
-        public static void SetState(this Control control, string name)
+        public static void SetState<T>(this Control control, Observer<T> observerState, string property = "Text")
         {
-            _SetState(control, "Text", name);
+            _SetState<T>(control, observerState.Name, property);
         }
 
         /// <summary>
         /// Method that sets the value for the component to the desired property.
         /// </summary>
-        public static void SetState(this Control control, string property, string name)
+        public static void SetState<T>(this Control control, string name, string property = "Text")
         {
-            _SetState(control, property, name);
+            _SetState<T>(control, name, property);
         }
 
-        private static void _SetState(Control control, string property, string name)
+        private static void _SetState<T>(this Control control, string name, string property)
         {
             PhoenixForm form = control.FindForm() as PhoenixForm;
 
@@ -61,14 +61,17 @@ namespace Phoenix.Extentions
 
             Action action = () =>
             {
-                ensurer.Insure<string>(name, (value) =>
+                ensurer.Insure<T>(name, (value) =>
                 {
                     control.GetType().GetProperty(property).SetValue(control, value);
-                    control.Text = value;
                 }, StoreTypes.LOCAL);
             };
 
-            if (store.GetState.ContainsKey(name) && control.Text.ToString() != Convert.ToString(store.GetState[name]))
+            if
+            (
+                store.GetState.ContainsKey(name)
+                && control.GetType().GetProperty(property).GetValue(control).ToString() != Convert.ToString(store.GetState[name])
+            )
             {
                 action();
                 return;
