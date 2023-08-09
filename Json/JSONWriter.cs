@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Phoenix.Json
 {
@@ -90,6 +91,10 @@ namespace Phoenix.Json
             else if (type == typeof(bool))
             {
                 stringBuilder.Append(((bool)item) ? "true" : "false");
+            }
+            else if (type == typeof(Control) || item is Control)
+            {
+                stringBuilder.Append(item.GetType().FullName);
             }
             else if (type == typeof(DateTime))
             {

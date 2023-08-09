@@ -4,15 +4,16 @@ using System.Linq;
 using System.Windows.Forms;
 using Phoenix.Json;
 using Phoenix.Extentions;
+using Phoenix.Helpers;
 
 namespace Phoenix.Core
 {
-    public class Storage : Dictionary<string, dynamic>
+    public class Storage : Dictionary<string, object>
     {
-        public Storage(Dictionary<string, dynamic> store) : base(store) { }
+        public Storage(Dictionary<string, object> store) : base(store) { }
 
         /// <summary>
-        /// A method to expand the entire Store.
+        /// A method to expand the entire Store. Returns <paramref name="Json" />.
         /// </summary>
         public string Scan()
         {
@@ -20,7 +21,7 @@ namespace Phoenix.Core
         }
 
         /// <summary>
-        /// A simplified method for expanding the entire Store.
+        /// A simplified method for expanding the entire Store. Returns <paramref name="Json" />.
         /// </summary>
         public string SimpleScan()
         {
@@ -30,9 +31,9 @@ namespace Phoenix.Core
         /// <summary>
         /// The method returns a value from Store corresponding to the passed component.
         /// </summary>
-        public T GetByComponent<T>(Control component)
+        public string GetByComponent(Control component)
         {
-            return this[component.Name.ToString()];
+            return this[component.Name.ToString()].ToString();
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace Phoenix.Core
         /// </summary>
         public T GetByState<T>(State<T> state)
         {
-            return this[state.Name.ToString()];
+            return Converting.ToType<T>(this[state.Name.ToString()]);
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace Phoenix.Core
         /// </summary>
         public T GetByReducer<T>(Reducer<T> reducer)
         {
-            return this[reducer.Name.ToString()];
+            return Converting.ToType<T>(this[reducer.Name.ToString()]);
         }
 
         /// <summary>
@@ -56,7 +57,7 @@ namespace Phoenix.Core
         /// </summary>
         public T GetBy<T>(Observer<T> observerState)
         {
-            return this[observerState.Name.ToString()];
+            return Converting.ToType<T>(this[observerState.Name.ToString()]);
         }
 
         /// <summary>
@@ -66,15 +67,21 @@ namespace Phoenix.Core
         {
             try
             {
-                return (T)Convert.ChangeType(this.Get(key), typeof(T));
+                return Converting.ToType<T>(this.Get(key));
             }
             catch (InvalidCastException)
             {
-                throw new InvalidCastException($@"Unable to convert type {((object)this.Get(key)).GetType()} to type {typeof(T).ToString()}!");
+                throw new PhoenixException(
+                    $@"Unable to convert type {(this.Get(key)).GetType()} to type {typeof(T).ToString()}!",
+                    new InvalidCastException()
+                );
             }
             catch (KeyNotFoundException)
             {
-                throw new KeyNotFoundException("A value with such a key does not exist in the storage!");
+                throw new PhoenixException(
+                    "A value with such a key does not exist in the storage!",
+                    new KeyNotFoundException()
+                );
             }
         }
 

@@ -7,10 +7,7 @@ namespace Phoenix.Core
     {
         private PhoenixForm _form;
 
-        public Ensurer(PhoenixForm form)
-        {
-            _form = form;
-        }
+        public Ensurer(PhoenixForm form) => _form = form;
 
         internal void Insure<T>(string key, Action<T> callback, string storeType)
         {
@@ -20,7 +17,7 @@ namespace Phoenix.Core
 
             if (!TypeMatchers.IsNull<dynamic>(value))
             {
-                callback((T)Convert.ChangeType(value, typeof(T)));
+                callback(Converting.ToType<T>(value));
             } 
         }
     }

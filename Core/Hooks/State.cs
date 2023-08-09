@@ -1,12 +1,23 @@
-﻿namespace Phoenix.Core
+﻿using Phoenix.Helpers;
+using Phoenix.Extentions;
+
+namespace Phoenix.Core
 {
     public sealed class State<T> : Observer<T>
     {
         private readonly Store _store;
+        private readonly bool _isRunHiddenDispatch;
 
-        public State(T value, Store store) : base(value)
+        public State(T value, Store store, bool isRunHiddenDispatch = true, string name = null) : base(value)
         {
             _store = store;
+            _isRunHiddenDispatch = isRunHiddenDispatch;
+
+            if (!TypeMatchers.IsNull(name))
+                Name = name;
+
+            if (isRunHiddenDispatch)
+                _store.HiddenDispatch(Name, value);
         }
 
         /// <summary>
@@ -14,7 +25,15 @@
         /// </summary>
         public override T Value
         {
-            get => base.Value;
+            get
+            {
+                return Converting.ToType<T>
+                (
+                    _isRunHiddenDispatch      ?
+                    _store.GetState.Get(Name) :
+                    base.Value
+                );
+            }
             set
             {
                 base.Value = value;

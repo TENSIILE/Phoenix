@@ -1,4 +1,6 @@
-﻿using System.Data.OleDb;
+﻿using System;
+using System.Data.OleDb;
+using Phoenix.Helpers;
 
 namespace Phoenix.Db
 {
@@ -19,7 +21,16 @@ namespace Phoenix.Db
             return new PhoenixDBCommonCommand();
         }
 
-        internal static OleDbConnection GetConnection => _connection;
+        public bool Auth(string login, string password)
+        {
+            string query = $@"SELECT count(*) FROM users WHERE login = '{login}' AND password = '{password}'";
+            OleDbCommand command = new OleDbCommand(query, GetConnection);
+            object response = command.ExecuteScalar();
+
+            return !TypeMatchers.IsNull(response) && Convert.ToInt32(response) == 1;
+        }
+
+        public static OleDbConnection GetConnection => _connection;
         internal static string GetTable => _selectedTable;
 
         internal static int Execute(string query)

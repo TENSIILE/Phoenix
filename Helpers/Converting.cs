@@ -1,4 +1,5 @@
 ﻿using System;
+using Phoenix.Core;
 
 namespace Phoenix.Helpers
 {
@@ -11,7 +12,7 @@ namespace Phoenix.Helpers
         {
             if (TypeMatchers.IsBool(value))
             {
-                throw new ArgumentException("This method does not accept Boolean types! Can't convert Boolean to Boolean!");
+                return Convert.ToBoolean(value);
             }
 
             return !TypeMatchers.IsNullOrEmpty(value);
@@ -43,7 +44,10 @@ namespace Phoenix.Helpers
                 case "false":
                     return _value == "true";
                 default:
-                    throw new ArgumentException("Unable to parse input string to Boolean!");
+                    throw new PhoenixException(
+                        "Unable to parse input string to Boolean!",
+                        new ArgumentException()
+                    );
             }
         }
 
@@ -84,7 +88,7 @@ namespace Phoenix.Helpers
         /// <summary>
         /// A method that converts an error to false when it is triggered.
         /// </summary>
-        public static bool ErrorToBoolean<T>(DelegateErrorToBoolean callback) where T : Exception
+        public static bool ErrorToBoolean<T>(ErrorToBooleanDelegate callback) where T : Exception
         {
             try
             {
@@ -97,6 +101,14 @@ namespace Phoenix.Helpers
             }
         }
 
-        public delegate object DelegateErrorToBoolean();
+        public delegate void ErrorToBooleanDelegate();
+
+        /// <summary>
+        /// Returns an object of the specified type whose value is equivalent to the specified type.
+        /// </summary>
+        public static T ToType<T>(dynamic argument)
+        {
+            return (T)Convert.ChangeType(argument, typeof(T));
+        }
     }
 }

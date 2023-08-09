@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.OleDb;
+using Phoenix.Core;
 using Phoenix.Extentions;
 
 namespace Phoenix.Db
@@ -96,8 +97,13 @@ namespace Phoenix.Db
             private OleDbDataReader Execute(string query)
             {
                 OleDbCommand command = new OleDbCommand(query, PhoenixDB.GetConnection);
-                OleDbDataReader reader = command.ExecuteReader();
-                return reader;
+                return command.ExecuteReader();
+            }
+
+            private dynamic ExecuteScalar(string query)
+            {
+                OleDbCommand command = new OleDbCommand(query, PhoenixDB.GetConnection);
+                return command.ExecuteScalar();
             }
 
             public OleDbDataReader FindAll()
@@ -140,12 +146,20 @@ namespace Phoenix.Db
                     return this;
                 }
 
-                throw new ArgumentException("Sorting type must be either [desc] or [asc]!");
+                throw new PhoenixException(
+                    "Sorting type must be either [desc] or [asc]!", 
+                    new ArgumentException()
+                );
             }
 
             public OleDbDataReader Exec()
             {
                 return Execute(_query);
+            }
+
+            public dynamic Scalar()
+            {
+                return ExecuteScalar(_query);
             }
         }
     }

@@ -4,26 +4,20 @@ using System.Linq;
 using System.Windows.Forms;
 using System.ComponentModel;
 using Phoenix.Core;
+using Phoenix.Helpers;
+using Phoenix._System;
 
 namespace Phoenix
 {
     public partial class PhoenixForm : Form
     {
         private Store _localStore = new Store();
-        private static Store _globalStore = new Store();
+    
         private static Provider _provider = new Provider();
 
-        /// <summary>
-        /// The static accessor that returns static global store of the form.
-        /// </summary>
-        [Browsable(false)]
-        public static Store StaticGlobalStore => _globalStore;
+        private PrivatePhoenixFormDictionary _subComponents = new PrivatePhoenixFormDictionary();
 
-        /// <summary>
-        /// The accessor that returns static global store of the form.
-        /// </summary>
-        [Browsable(false)]
-        public Store GlobalStore => _globalStore;
+        public delegate void TryCloseForm(Action onClose);
 
         /// <summary>
         /// The accessor that returns store of the form.
@@ -32,35 +26,64 @@ namespace Phoenix
         public Store Store => _localStore;
 
         /// <summary>
-        /// Static accessor that returns static provider of the form.
+        /// The accessor that returns static provider of the form.
         /// </summary>
         [Browsable(false)]
         public static Provider Provider => _provider;
 
         /// <summary>
-        /// The accessor that returns static provider of the form.
+        /// An accessor called when the form is closed, allowing you to cancel or confirm the closing of the form.
         /// </summary>
         [Browsable(false)]
-        public Provider StaticProvider => _provider;
+        protected TryCloseForm OnTryCloseForm { get; set; } = null;
 
-        
+        /// <summary>
+        /// Returns a list of connected sub-components to the form.
+        /// </summary>
+        [Browsable(false)]
+        protected PrivatePhoenixFormDictionary SubComponents => _subComponents;
+
         internal event Action<dynamic> FormDidHide;
         internal event Action<dynamic> FormDidShow;
 
         internal Store GetStoreByType(string storeType = StoreTypes.LOCAL)
         {
-            return storeType == StoreTypes.LOCAL ? _localStore : _globalStore;
+            return storeType == StoreTypes.LOCAL ? _localStore : Provider.GlobalStore;
         }
 
         /// <summary>
-        /// A method that initializes the form.
+        /// A method that initializes the forms.
         /// </summary>
-        protected void Init()
+        protected void Init(params Type[] formTypes)
         {
             PContainer.Append(Name, this);
             InitializeEvents();
 
-            _globalStore.StoreType = StoreTypes.GLOBAL;
+            Provider.GlobalStore.StoreType = StoreTypes.GLOBAL;
+            Provider.GlobalStore.CombinedStores += StoreCombined;
+
+            formTypes.ToList().ForEach((Type formType) =>
+            {
+                FormActivator.ProtectsAndValidatesPassedTypes(formType);
+
+                var formConstructor = FormActivator.CreateFormConstructor(formType);
+                FormActivator.AddFormConstructor(formType.Name, formConstructor);
+            });
+        }
+
+        /// <summary>
+        /// Method for connecting a sub-component to a form.
+        /// </summary>
+        protected void ConnectSubComponents(params PhoenixForm[] components)
+        {
+            Mathf.For(components.Length, (i) => 
+            {
+                PhoenixForm component = components[i];
+
+                _subComponents.Add(component.Name, component);
+                component.InitializeEvents();
+                component.EnableFormHiding();
+            });
         }
 
         internal void InitializeEvents()
@@ -69,20 +92,19 @@ namespace Phoenix
             FormDidShow += FormDidMount;
             FormDidHide += FormWillUnmount;
 
-            FormDidAddedListeners();
+            FormAddedListeners();
 
             _localStore.DidChangeStore += StoreDidUpdate;
             _localStore.WillChangeStore += StoreWillUpdate;
             _localStore.Render += Render;
 
             _localStore.CombinedStores += StoreCombined;
-            _globalStore.CombinedStores += StoreCombined;
         }
 
         /// <summary>
         /// A method to disable full form closing.
         /// </summary>
-        public void EnableFormHiding()
+        internal void EnableFormHiding()
         {
             FormClosing += new FormClosingEventHandler(PhoenixClosing);
         }
@@ -90,9 +112,17 @@ namespace Phoenix
         /// <summary>
         /// A method to override disabling the closure of a form.
         /// </summary>
-        public void DisableFormHiding()
+        internal void DisableFormHiding()
         {
             FormClosing -= new FormClosingEventHandler(PhoenixClosing);
+        }
+
+        private PhoenixException GetComponentException(string name)
+        {
+            return new PhoenixException(
+                $@"The component with the name ['{name}'] does not exist on the form - [{Name}]!",
+                new KeyNotFoundException()
+            );
         }
 
         /// <summary>
@@ -103,11 +133,26 @@ namespace Phoenix
         {
             try
             {
-                return (T)Convert.ChangeType(Controls.Find(name, true).ToArray()[0], typeof(T));
+                return Converting.ToType<T>(Controls.Find(name, true).ToArray()[0]);
             }
             catch (Exception)
             {
-                throw new KeyNotFoundException($@"The component with the name ['{name}'] does not exist on the form - {Name}!");
+                throw GetComponentException(name);
+            }
+        }
+
+        /// <summary>
+        /// A method for searching a component on a form by its name. 
+        /// </summary>
+        public Control GetComponent(string name)
+        {
+            try
+            {
+                return Controls.Find(name, true).ToArray()[0];
+            }
+            catch (Exception)
+            {
+                throw GetComponentException(name);
             }
         }
 
@@ -120,9 +165,7 @@ namespace Phoenix
             List<T> result = new List<T>();
 
             foreach (Control control in Controls.OfType<T>())
-            {
                 result.Add((T)control);
-            }
 
             return result.ToArray();
         }
@@ -157,10 +200,22 @@ namespace Phoenix
 
         private void PhoenixClosing(object sender, FormClosingEventArgs e)
         {
-            if (e.CloseReason != CloseReason.ApplicationExitCall)
+            Action hideAction = () =>
             {
                 e.Cancel = true;
                 Hide();
+            };
+
+            if (e.CloseReason != CloseReason.ApplicationExitCall)
+            {
+                if (!TypeMatchers.IsNull(OnTryCloseForm))
+                {
+                    OnTryCloseForm(hideAction);
+                    e.Cancel = true;
+                    return;
+                }
+
+                hideAction();
             }
         }
 
@@ -180,15 +235,15 @@ namespace Phoenix
         /// The lifecycle method is executed once when the form is first launched, 
         /// starting the listeners initialized in this method.
         /// </summary>
-        protected virtual void FormDidAddedListeners() { }
+        protected virtual void FormAddedListeners() { }
         /// <summary>
         /// The store lifecycle method, which is called after it has been updated.
         /// </summary>
-        protected virtual void StoreDidUpdate(Storage storePrev, Storage storeNow) { }
+        protected virtual void StoreDidUpdate(Storage prevStore, Storage currentStore) { }
         /// <summary>
         /// The store lifecycle method, which is called before updating it.
         /// </summary>
-        protected virtual void StoreWillUpdate(Storage storePrev, Storage storeNow) { }
+        protected virtual void StoreWillUpdate(Storage prevStore, Storage currentStore) { }
         /// <summary>
         /// The lifecycle method is triggered when the local or global store of the form has been combined.
         /// </summary>
@@ -197,6 +252,5 @@ namespace Phoenix
         /// A lifecycle method that is called after a data update to display up-to-date information.
         /// </summary>
         protected virtual void Render() {}
-        
     }
 }

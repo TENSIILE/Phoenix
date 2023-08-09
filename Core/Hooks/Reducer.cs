@@ -24,11 +24,13 @@
         /// </summary>
         public override T Value => _state.Value;
 
-        public Reducer(ReducerActionCallback<T> reducer, T initialState, Store store) : base(initialState)
+        public Reducer(ReducerActionCallback<T> reducer, T initialState, Store store, bool isRunHiddenDispatch = true) : base(initialState)
         {
             _reducer = reducer;
-            _state = new State<T>(initialState, store);
-            _state.Name = Name;
+
+            _state = new State<T>(initialState, store, isRunHiddenDispatch, Name);
+
+            store.HiddenDispatch(Name, initialState);
         }
 
         /// <summary>

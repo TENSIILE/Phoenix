@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
 using Phoenix.Extentions;
+using Phoenix.Json;
+using Phoenix.Helpers;
 
 namespace Phoenix.Core
 {
@@ -9,6 +10,13 @@ namespace Phoenix.Core
     {
         private readonly Dictionary<string, dynamic> _provider = new Dictionary<string, dynamic>();
         private readonly List<UpdatedCallback> providerUpdatedCallbacks = new List<UpdatedCallback>();
+
+        private static Store _globalStore = new Store();
+
+        ///// <summary>
+        ///// The accessor that returns static global store.
+        ///// </summary>
+        public static Store GlobalStore { get; } = _globalStore;
 
         /// <summary>
         /// A method that adds any data to the provider.
@@ -21,22 +29,12 @@ namespace Phoenix.Core
         }
 
         /// <summary>
-        /// The method adds a component to the provider.
-        /// </summary>
-        public void Add(Control control)
-        {
-            Add(control.Name, control);
-        }
-
-        /// <summary>
         /// The method adds an unlimited number of components to the provider.
         /// </summary>
         public void Add(params Control[] controls)
         {
             foreach (Control control in controls)
-            {
                 Add(control.Name, control);
-            }
         }
 
         /// <summary>
@@ -46,12 +44,27 @@ namespace Phoenix.Core
         {
             try
             {
-                return (T)Convert.ChangeType(_provider.Get(key), typeof(T));
+                return Converting.ToType<T>(_provider.Get(key));
             }
             catch (KeyNotFoundException)
             {
-                throw new KeyNotFoundException($@"The provider does not have an object with such a key - {key}!");
+                throw new PhoenixException(
+                    $@"The provider does not have an object with such a key - [{key}]!", 
+                    new KeyNotFoundException()
+                );
             }
+        }
+
+        /// <summary>
+        /// A method that returns data from a provider using a unique key all only once, and then removes that data from it.
+        /// </summary>
+        public T TakeOnce<T>(string key)
+        {
+            T value = Take<T>(key);
+
+            _provider.Remove(key);
+
+            return value;
         }
 
         /// <summary>
@@ -65,6 +78,14 @@ namespace Phoenix.Core
         public void UpdatedFor(UpdatedCallback callback)
         {
             providerUpdatedCallbacks.Add(callback);
+        }
+
+        /// <summary>
+        /// A method that converts provider data into a string.
+        /// </summary>
+        public override string ToString()
+        {
+            return _provider.ToJson();
         }
     }
 }

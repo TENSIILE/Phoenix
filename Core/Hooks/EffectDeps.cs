@@ -19,7 +19,7 @@ namespace Phoenix.Core
             {
                 if (TypeMatchers.IsNullOrEmpty(el))
                 {
-                    throw new ArgumentException(MESSAGE_ERROR, el.ToString());
+                    throw new PhoenixException(MESSAGE_ERROR, new ArgumentException(MESSAGE_ERROR, el.ToString()));
                 }
                 
                 if (el is Control || (el.GetType().BaseType.Name == typeof(Observer<>).Name))
@@ -32,7 +32,7 @@ namespace Phoenix.Core
                 }
                 else
                 {
-                    throw new ArgumentException(MESSAGE_ERROR, el.ToString());
+                    throw new PhoenixException(MESSAGE_ERROR, new ArgumentException(MESSAGE_ERROR, el.ToString()));
                 }
             }).Distinct().ToArray();
         }

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Phoenix.Helpers;
 
 namespace Phoenix.Extentions
 {
@@ -162,6 +159,23 @@ namespace Phoenix.Extentions
             Array.Copy(list.ToArray(), indexFrom, result, 0, length);
 
             return result.ToList();
+        }
+
+        public delegate T ReduceCallback<T, R>(T acc, R element, int index);
+
+        /// <summary>
+        /// The method applies the reducer function to each element of the array (from left to right), returning one result value.
+        /// </summary>
+        public static R Reduce<T, R>(this List<T> list, ReduceCallback<R, T> callback, R acc)
+        {
+            R result = acc;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                result = callback(result, list[i], i);
+            }
+
+            return result;
         }
     }
 }

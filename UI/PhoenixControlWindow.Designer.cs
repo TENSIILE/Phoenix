@@ -72,6 +72,7 @@
             this.labelCaption.ForeColor = System.Drawing.Color.White;
             this.labelCaption.Location = new System.Drawing.Point(0, 0);
             this.labelCaption.Name = "labelCaption";
+            this.labelCaption.Padding = new System.Windows.Forms.Padding(35, 0, 0, 0);
             this.labelCaption.Size = new System.Drawing.Size(261, 30);
             this.labelCaption.TabIndex = 3;
             this.labelCaption.Text = "Название окна";

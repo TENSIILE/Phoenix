@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Text;
+using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Phoenix.Core;
 
 namespace Phoenix.Helpers
 {
@@ -32,11 +34,29 @@ namespace Phoenix.Helpers
             return expressions.FindIndex(el => el.ToString() == obj.ToString()) != -1;
         }
 
+        /// <summary>
+        /// The method of comparing elements and finding one true one.
+        /// </summary>
+        public static bool CompareOrEqual<T>(T obj, params T[] expressions)
+        {
+            return expressions.ToList().FindIndex(el => el.ToString() == obj.ToString()) != -1;
+        }
+
         internal static void ProtectedConstraintOnNumber<T>(T value, bool outflank = false)
         {
-            if (!CompareOr(TypeMatchers.IsInt(value), TypeMatchers.IsDouble(value), TypeMatchers.IsFloat(value)) && !outflank)
+            if (
+                !CompareOr(
+                    TypeMatchers.IsInt(value),
+                    TypeMatchers.IsDouble(value),
+                    TypeMatchers.IsString(value),
+                    TypeMatchers.IsFloat(value)
+                ) && !outflank
+            )
             {
-                throw new ArgumentException("This method only accepts Int or Double or Float types!");
+                throw new PhoenixException(
+                    "This method only accepts Int or Double or Float or String types!",
+                    new ArgumentException()
+                );
             }
         }
 
@@ -73,9 +93,17 @@ namespace Phoenix.Helpers
         }
 
         /// <summary>
-        /// A method that generates a unique id.
+        /// Method generating unique id by type.
         /// </summary>
-        public static string GetUniqueId(string substring = null)
+        public static Guid GuidForType<T>()
+        {
+            return System.Runtime.InteropServices.Marshal.GenerateGuidForType(typeof(T));
+        }
+
+        /// <summary>
+        /// Method that generates a unique ID from a timestamp.
+        /// </summary>
+        public static string UuidV1(string substring = null)
         {
             DateTime date = new DateTime(1970, 1, 1);
 

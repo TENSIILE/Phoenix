@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Phoenix.Core;
 using Phoenix.Helpers;
 
@@ -22,6 +20,19 @@ namespace Phoenix
         protected string UseEffect(Action callback, string[] deps, bool isRunStartAway = false, string storeType = StoreTypes.LOCAL)
         {
             return GetStoreByType(storeType).Effect(callback, deps, isRunStartAway);
+        }
+
+        /// <summary>
+        /// State tracking hook method.
+        /// </summary>
+        protected string UseEffect(string formName, Action callback, string[] deps, bool isRunStartAway = false, string storeType = StoreTypes.LOCAL)
+        {
+            if (storeType == StoreTypes.LOCAL)
+            {
+                return PContainer.Get(formName).Store.Effect(callback, deps, isRunStartAway);
+            }
+
+            throw new PhoenixException("You cannot refer to the global store while referring to the store for a specific form!");
         }
 
         /// <summary>
@@ -55,7 +66,7 @@ namespace Phoenix
         /// </summary>
         protected Broadcast UseBroadcast(Store store = null)
         {
-            return new Broadcast(this, TypeMatchers.IsNull(store) ? Store : store);
+            return new Broadcast(TypeMatchers.IsNull(store) ? Store : store);
         }
 
         /// <summary>
@@ -74,33 +85,6 @@ namespace Phoenix
         protected void UseEnsure<T>(Observer<T> observer, Action<T> callback, string storeType = StoreTypes.LOCAL)
         {
             new Ensurer(this).Insure(observer.Name, callback, storeType);
-        }
-
-        /// <summary>
-        /// Hook method creating a multiple window application.
-        /// </summary>
-        protected void UseCreateMWA(List<PhoenixForm> forms)
-        {
-            _UseCreateMWA(forms);
-        }
-
-        /// <summary>
-        /// Hook method creating a multiple window application.
-        /// </summary>
-        protected void UseCreateMWA(params PhoenixForm[] forms)
-        {
-            _UseCreateMWA(forms.ToList());
-        }
-
-        private void _UseCreateMWA(List<PhoenixForm> forms)
-        {
-            Init();
-            forms.ForEach((PhoenixForm form) =>
-            {
-                PContainer.Append(form.Name, form);
-                form.InitializeEvents();
-                form.EnableFormHiding();
-            });
         }
     }
 }

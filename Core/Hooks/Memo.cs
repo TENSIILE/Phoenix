@@ -7,10 +7,7 @@ namespace Phoenix.Core
     {
         private Store _store;
 
-        public Memo(Store store)
-        {
-            _store = store;
-        }
+        public Memo(Store store) => _store = store;
 
         /// <summary>
         /// A method observing the changes in the transmitted states.
@@ -27,7 +24,7 @@ namespace Phoenix.Core
         {
             foreach (string dep in deps)
             {
-                if (_store.GetStatePrev.Has(dep) != _store.GetState.Has(dep))
+                if (_store.GetPrevState.Has(dep) != _store.GetState.Has(dep))
                 {
                     callback();
                 }

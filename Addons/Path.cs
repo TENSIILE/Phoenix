@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Phoenix.Core;
 using Phoenix.Extentions;
 
 namespace Phoenix.Addons
@@ -33,7 +34,10 @@ namespace Phoenix.Addons
 
             if (list.Length < count || count < 0)
             {
-                throw new ArgumentOutOfRangeException("The count cannot be more than the number of folders in the path. And also less than zero!");
+                throw new PhoenixException(
+                    "The count cannot be more than the number of folders in the path. And also less than zero!",
+                    new ArgumentOutOfRangeException()
+                );
             }
 
             return Combine(list.ToList().Slice(0, list.Length - count).ToArray());
